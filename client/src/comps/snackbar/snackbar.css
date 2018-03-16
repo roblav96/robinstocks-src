@@ -1,0 +1,18 @@
+/**/
+
+.snackbar-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 50%;
+    width: 50%;
+    transform: translateX(50%);
+    z-index: 99;
+}
+
+.snackbar-wrapper i.icon {
+    color: rgba(255, 255, 255, 0.66) !important;
+}
+
+
+/**/
+

@@ -1,0 +1,9 @@
+<!--  -->
+
+<v-btn color="info" round dark class="symbol-chip-btn" :class="{ 'symbol-chip-btn-small': small, 'symbol-chip-btn-long': long, 'pointer-none': clickthru }"
+    :to="to_symbol(symbol)" v-on:click.native.stop>
+    <div></div>
+    <img class="elevation-1" :src="v_logo_url" v-on:error="on_logo_error">
+    <span>{{ symbol }}</span>
+</v-btn>
+

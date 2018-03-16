@@ -1,0 +1,43 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.gitignore",
+				"*.sublime*"
+			],
+			"folder_exclude_patterns":
+			[
+				"shared",
+				"client",
+				"server/config",
+				"server/dist",
+				"server/node_modules"
+			],
+			"path": "."
+		}
+	],
+	"javatar":
+	{
+		"jdk_version":
+		{
+			"JDK1.7.0u79":
+			{
+				"bin": "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/bin",
+				"home": "/Library/Java/JavaVirtualMachines/jdk1.7.0_79.jdk/Contents/Home/jre",
+				"update": "79",
+				"version": "1.7.0"
+			},
+			"JDK1.8.0u92":
+			{
+				"bin": "/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/bin",
+				"home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre",
+				"update": "92",
+				"version": "1.8.0"
+			},
+			"home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre",
+			"use": ""
+		}
+	}
+}

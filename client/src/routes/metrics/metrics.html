@@ -1,0 +1,97 @@
+<!--  -->
+
+<div class="route-wrapper metrics-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title class="mr-4">{{ routerdname }}</v-toolbar-title>
+
+        <!-- <v-bottom-nav class="secondary shadow-none ml-4 transparent" :active.sync="index">
+            <v-btn flat class="px-3" v-for="item in tabs">
+                <span>{{ item.dname }}</span>
+            </v-btn>
+        </v-bottom-nav> -->
+
+        <v-btn large flat class="t-16 btn-bold" :outline="index == i ? true : false" v-for="(tab, i) in tabs"
+            v-on:click="index = i">
+            <span>{{ tab.dname }}</span>
+        </v-btn>
+
+        <v-spacer />
+
+        <!-- <v-tabs dark grow>
+            <v-tabs-bar dark class="cyan">
+                <v-tabs-slider color="yellow"></v-tabs-slider>
+                <v-tabs-item v-for="tab in tabs" :key="tab.id" :href="'#' + tab" ripple>
+                    {{ tab.dname }}
+                </v-tabs-item>
+            </v-tabs-bar>
+        </v-tabs> -->
+
+    </v-toolbar>
+
+    <main id="metrics_scroll">
+        <v-container fluid class="pa-4">
+
+            <div class="card mb-4" v-for="(item, i) in items">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">{{ item.name }}</span>&nbsp;
+                        <span v-if="item.desc" class="t-300"> {{ item.desc }}</span>
+                    </p>
+                    <v-spacer />
+                    <v-btn dark large flat :outline="chart == item.key" class="btn-px-0 w-initial pl-3 pr-2 ma-0"
+                        v-on:click="toggleChart(item.key)">
+                        <p class="subheading t-500">Chart</p>
+                        <v-icon medium>{{ chart == item.key ? 'mdi-menu-up' : 'mdi-menu-down' }}</v-icon>
+                    </v-btn>
+                </v-card-title>
+
+                <metrics-chart v-if="chart == item.key" :item="item" />
+
+                <v-divider />
+
+                <div class="table__overflow">
+                    <table class="datatable table shadow-none table--narrow table--center">
+                        <thead>
+                            <tr>
+                                <th width="1" class="body-2">Cluster</th>
+                                <th class="body-2" v-for="(v, k, ii) in item.avgs" v-if="k != 'stamp'">
+                                    {{ parseKey(k, item.rkey, item.type) }}
+                                </th>
+                                <th class="body-2">Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="body-2">Avg</td>
+                                <td class="body-2" v-for="(v, k, ii) in item.avgs" v-if="k != 'stamp'">{{ parseValue(v, k, item) }}</td>
+                                <td class="body-2">{{ from_now(item.avgs.stamp) }}</td>
+                            </tr>
+                            <tr v-for="(data, k, ii) in item.idatas">
+                                <td class="caption py-1">{{ k }}</td>
+                                <td class="caption py-1" v-for="(vv, kk, ii) in data" v-if="kk != 'stamp'">{{ parseValue(vv, kk, item) }}</td>
+                                <td class="caption py-1">{{ from_now(data.stamp) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="body-2">Sum</td>
+                                <td class="body-2" v-for="(v, k, ii) in item.sums" v-if="k != 'stamp'">{{ parseValue(v, k, item) }}</td>
+                                <td class="body-2">{{ from_now(item.sums.stamp) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </v-container>
+    </main>
+
+    <!-- <v-bottom-nav color="secondary" class="route-bottom-nav" :active.sync="index">
+        <v-btn flat class="white--text" v-for="item in tabs">
+            <span>{{ item.dname }}</span>
+            <v-icon>{{ item.icon }}</v-icon>
+        </v-btn>
+    </v-bottom-nav> -->
+
+</div>
+

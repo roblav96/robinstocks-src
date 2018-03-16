@@ -1,0 +1,63 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-text-field ref="ib_executions_search" class="mb-4" label="Search..." solo spellcheck="false"
+            v-model="search" prepend-icon="search"></v-text-field>
+
+        <v-card>
+            <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+                <v-progress-linear v-show="!parent.ready" class="will-animate animated my-0" style="position: absolute;"
+                    height="4" indeterminate>
+                </v-progress-linear>
+            </transition>
+
+            <v-data-table v-show="parent.ready" class="table--left table--narrow table--narrowest animated animated-fast fadeIn"
+                :headers="headers" :items="v_executions" :custom-sort="customOrderBy"
+                :pagination.sync="pagination" must-sort>
+                <template slot="items" scope="props">
+                    <tr v-on:click="debugItem(props.item)">
+                        <td class="pr-2">
+                            <symbol-chip :symbol="props.item.symbol" :small="true" />
+                        </td>
+                        <td class="body-1" :class="[ props.item.side == 'BOT' ? 'success--text' : 'error--text' ]">
+                            {{ v_side(props.item.side) }}
+                        </td>
+                        <td class="body-1">{{ ib_exchange_name(props.item.exchange) }}</td>
+                        <!-- <td class="body-1">{{ format_number(props.item.shares, 0) }}</td>
+                        <td class="body-1">{{ format_number(props.item.cumQty, 0) }}</td>
+                        <td class="body-1">${{ format_number(props.item.avgPrice) }}</td> -->
+
+                        <td class="body-1 t-nowrap pr-5">
+                            <v-progress-linear color="secondary" :value="v_qtybar(props.item.shares, props.item.cumQty)"
+                                height="4" class="ma-0 animated-none" />
+                            <span>{{ format_number(props.item.shares, 0) }}</span>
+                            <span class="caption t-300">/ {{ format_number(props.item.cumQty, 0) }}</span>
+                            <span v-show="props.item.avgPrice" style="float: right;">${{ format_number(props.item.avgPrice) }}</span>
+                        </td>
+
+                        <td class="body-1 t-bold" :class="v_pm_color(props.item.realizedPNL, 0)">
+                            <span v-show="props.item.realizedPNL">
+                                {{ plus_minus(props.item.realizedPNL, 2, true, false) }}
+                            </span>
+                        </td>
+                        <td class="body-1" :class="v_pm_color(-props.item.commission, 0)">
+                            <span v-show="props.item.commission">
+                                {{ plus_minus(-props.item.commission, 2, true, false) }}
+                            </span>
+                        </td>
+                        <td class="body-1">
+                            ${{ format_number(ib_lastPrice(props.item.symbol)) }}
+                            <span class="caption t-300">{{ from_now(ib_lastStamp(props.item.symbol)) }}</span>
+                        </td>
+                        <td class="body-1 t-nowrap">{{ from_now(props.item.lastUpdate) }}</td>
+                        <td class="body-1 t-nowrap">{{ from_now(props.item.stamp) }}</td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </v-card>
+
+    </v-container>
+</main>
+

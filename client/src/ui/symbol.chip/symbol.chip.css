@@ -1,0 +1,84 @@
+/**/
+
+.symbol-chip-btn div.btn__content {
+    padding: initial;
+}
+
+.symbol-chip-btn {
+    margin: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 7.5rem;
+}
+
+.symbol-chip-btn div.btn__content div {
+    position: absolute;
+    border-radius: 50%;
+    background-color: white;
+    z-index: 1;
+    height: 32px;
+    width: 32px;
+    margin-left: 2px;
+    left: 0px;
+}
+
+.symbol-chip-btn img {
+    z-index: 3;
+    border-radius: 50%;
+    vertical-align: middle;
+    min-width: 32px;
+    max-width: 32px;
+    max-height: 32px;
+    margin-left: 2px;
+}
+
+.symbol-chip-btn span {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 16px;
+    width: 100%;
+}
+
+
+/*
+	SMALL
+*/
+
+.symbol-chip-btn.symbol-chip-btn-small {
+    height: 28px;
+    font-size: 14px;
+    min-width: 6rem;
+}
+
+.symbol-chip-btn.symbol-chip-btn-small div.btn__content div {
+    height: 24px;
+    width: 24px;
+}
+
+.symbol-chip-btn.symbol-chip-btn-small div.btn__content img {
+    min-width: 24px;
+    max-width: 24px;
+    max-height: 24px;
+}
+
+.symbol-chip-btn.symbol-chip-btn-small span {
+    margin-left: 0px;
+    margin-right: 4px;
+}
+
+
+/*
+	LONG
+*/
+
+.symbol-chip-btn.symbol-chip-btn-long {
+    min-width: 9rem;
+}
+
+.symbol-chip-btn.symbol-chip-btn-small.symbol-chip-btn-long {
+    min-width: 7rem;
+}
+
+
+/**/
+

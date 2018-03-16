@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"lib": ["es2015"],
+		"outDir": "../",
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"removeComments": true,
+		"pretty": true
+	},
+	"files": ["../src/vendor.webpack.config.ts"]
+}
+

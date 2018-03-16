@@ -1,0 +1,17 @@
+
+/client/.awcache
+/client/.happypack
+/client/node_modules
+/client/dist
+/client/assets/vendor*
+/client/*webpack*.js
+/client/src/**/*.js
+
+/server/node_modules
+/server/dist
+/server/src/shared.ts
+
+*.heapsnapshot
+*.DS_STORE
+*.log
+*.rdb

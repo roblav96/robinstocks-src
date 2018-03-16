@@ -1,0 +1,18 @@
+/**/
+
+.symbol-search-wrapper {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    width: calc(100vw - 10vw);
+    max-width: initial !important;
+    overflow-y: initial !important;
+}
+
+.symbol-search-wrapper .table__overflow {
+    max-height: calc(100vh - 10vh - 64px);
+}
+
+
+/**/
+

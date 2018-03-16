@@ -1,0 +1,201 @@
+<!--  -->
+
+<v-bottom-sheet v-model="order.show">
+    <v-container fluid class="order-sheet pa-0 theme--dark">
+        <v-card class="secondary br-0">
+
+            <v-layout row align-center class="pa-4 flex-initial">
+
+                <v-btn large flat class="btn-px-0 px-2 mr-3 my-0 py-2 h-100" v-on:click="pickSymbol">
+                    <div v-show="cquote.symbol" class="t-left t-transform-none body-1 t-lh0">
+                        <p style="margin-top: -6px;">
+                            <span class="display-1 t-bold">{{ cquote.symbol }}</span>
+                            &nbsp;{{ cquote.name }}
+                        </p>
+                        <p>
+                            {{ quote_type(cquote.type) }} - {{ cquote.acronym }} ({{ v_status(cquote) }})
+                        </p>
+                    </div>
+                    <p v-show="!cquote.symbol" class="t-transform-none">Pick company symbol...</p>
+                </v-btn>
+
+                <v-layout row align-center class="flex-1 scroll-x scroll-y-hidden scrollbar-mini"
+                    v-on:mousewheel="v_mousewheelx" style="height: 64px;">
+                    <symbol-toolbar v-show="cquote.symbol" :cquote="cquote" :syncstamp="!!cquote.symbol"></symbol-toolbar>
+                </v-layout>
+
+            </v-layout>
+
+            <v-divider />
+
+            <!-- <v-layout column class="py-0 px-4"> -->
+            <v-layout row align-center class="pa-4">
+                <!-- <v-radio-group class="pt-0" v-model="order.action" column hide-details style="min-width: 7rem; max-width: 7rem;">
+                    <v-radio label="Buy" value="buy" color="success"></v-radio>
+                    <v-radio label="Sell" value="sell" color="error"></v-radio>
+                </v-radio-group> -->
+                <!-- <p class="mr-3 text--light">Action:</p> -->
+                <v-layout column align-center class="flex-initial mr-4">
+                    <v-btn small :color="order.action == 'buy' ? 'success' : 'white'" flat :outline="order.action == 'buy'"
+                        class="ma-0 mb-1 btn-bold" v-on:click="order.action = 'buy'">
+                        Buy
+                    </v-btn>
+                    <v-btn small :color="order.action == 'sell' ? 'error' : 'white'" flat :outline="order.action == 'sell'"
+                        class="ma-0 btn-bold" v-on:click="order.action = 'sell'">
+                        Sell
+                    </v-btn>
+                </v-layout>
+
+                <v-layout row align-center class="flex-1 scroll-x scroll-y-hidden scrollbar-mini mr-4"
+                    v-on:mousewheel="v_mousewheelx" style="height: 64px;">
+
+                    <v-menu offset-y top class="mr-4 flex-1" :nudge-top="4">
+                        <v-text-field label="Quantity" v-model.number.trim="order.totalQuantity" :color="v_color"
+                            type="number" slot="activator" hide-details style="min-width: 5rem;"></v-text-field>
+                        <v-list>
+                            <v-list-tile v-for="item in v_quantities" v-on:click="order.totalQuantity = item">
+                                <v-list-tile-title>
+                                    <span class="t-500">{{ item }}</span>
+                                    <span class="t-300">
+                                        ( ${{ format_price(item * cquote.lastPrice) }} )
+                                    </span>
+                                </v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-menu>
+
+                    <v-select class="mr-4" :items="order.types" v-model="order.orderType" label="Order Type"
+                        :color="v_color" hide-details style="min-width: 14rem;"></v-select>
+
+                    <v-menu v-if="show_type('stop')" offset-y top class="mr-4 flex-1" :nudge-top="4">
+                        <v-text-field class="mr-4" label="Stop Price" step="0.01" :color="v_color" v-model.number.trim="order.auxPrice"
+                            type="number" slot="activator" hide-details style="min-width: 6rem;"></v-text-field>
+                        <v-list>
+                            <v-list-tile v-for="item in v_stops" v-on:click="order.auxPrice = item.value">
+                                <v-list-tile-title>
+                                    <span class="t-500">${{ format_price(item.value) }}</span>
+                                    <span class="t-300">
+                                        (
+                                        <span :class="{ 'success--text--dbg': item.value > cquote.lastPrice, 'error--text--dbg': item.value < cquote.lastPrice }">
+                                            {{ plus_minus(calc_percent(item.value, cquote.lastPrice), 0) }}%
+                                        </span>
+                                        )
+                                    </span>
+                                </v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-menu>
+
+                    <v-menu v-if="show_type('limit')" offset-y top class="mr-4 flex-1" :nudge-top="4">
+                        <v-text-field class="mr-4" label="Limit Price" step="0.01" :color="v_color" v-model.number.trim="order.lmtPrice"
+                            type="number" slot="activator" hide-details style="min-width: 6rem;"></v-text-field>
+                        <v-list>
+                            <v-list-tile v-for="item in v_limits" v-on:click="order.lmtPrice = item.value">
+                                <v-list-tile-title>
+                                    <span class="t-500">${{ format_price(item.value) }}</span>
+                                    <span class="t-300">
+                                        (
+                                        <span :class="{ 'success--text--dbg': item.value > cquote.lastPrice, 'error--text--dbg': item.value < cquote.lastPrice }">
+                                            {{ plus_minus(calc_percent(item.value, cquote.lastPrice)) }}%
+                                        </span>
+                                        {{ item.text }} )
+                                    </span>
+                                </v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-menu>
+
+                    <v-select class="mr-4" :items="order.tifs" v-model="order.tif" label="Time In Force"
+                        :color="v_color" hide-details style="min-width: 14rem;"></v-select>
+
+                    <v-switch v-if="show_type('limit')" class="mr-1 pt-0 mt-1" label="Afterhours" :color="v_color"
+                        v-model="order.outsideRth" hide-details style="min-width: 9rem; max-width: 9rem;"></v-switch>
+
+                </v-layout>
+
+                <p class="display-1 t-bold">{{ v_total }}</p>
+
+            </v-layout>
+
+            <!-- <v-divider /> -->
+
+            <!-- <v-layout row justify-end class="my-4">
+                <v-btn large flat class="ma-0 px-4 mr-4" v-on:click="reset">Reset</v-btn>
+                <v-btn v-bind="{ success: is_buy, error: !is_buy }" large outline class="ma-0 px-4"
+                    v-on:click="submit" :loading="busy">{{ submit_text }}</v-btn>
+            </v-layout> -->
+
+            <!-- </v-layout> -->
+
+            <v-divider />
+
+            <v-layout row align-center class="pa-4">
+                <!-- <v-btn fab small flat class="ma-0 mr-4" v-on:click="order.show = false">
+                    <v-icon large class="t-bold headline">close</v-icon>
+                </v-btn> -->
+                <v-icon large class="mr-3">mdi-tag-plus</v-icon>
+                <p class="headline t-300 mr-5">Order Sheet</p>
+
+
+
+                <v-layout v-if="cquote.symbol && (cquote.position != 0 || cquote.realizedPNL != 0)"
+                    row align-center class="flex-initial mx-3 white--text scroll-x scroll-y-hidden scrollbar-mini"
+                    style="height: 56px;" v-on:mousewheel="v_mousewheelx">
+
+                    <v-layout row align-center class="t-nowrap animated animated-fast fadeIn h-100">
+                        <symbol-chip class="mr-4" :symbol="cquote.symbol" />
+                        <div class="tbar-item">
+                            <p class="body-1">Orders</p>
+                            <p class="title">{{ format_number(ib_orders_count(symbol), 0) }}</p>
+                        </div>
+                        <div class="tbar-item">
+                            <p class="body-1">Realized P/L</p>
+                            <p class="title" :class="v_pm_color(cquote.realizedPNL, 0, true)">
+                                {{ plus_minus(cquote.realizedPNL, 2, true, false) }}
+                            </p>
+                        </div>
+                        <div class="tbar-item">
+                            <p class="body-1">Commissions</p>
+                            <p class="title" :class="v_pm_color(-ib_commissions(symbol), 0, true)">
+                                {{ plus_minus(-ib_commissions(symbol), 2, true, false) }}
+                            </p>
+                        </div>
+                        <template v-if="cquote.position != 0">
+                            <div class="tbar-item">
+                                <p class="body-1">Market Value</p>
+                                <p class="title">
+                                    ${{ format_number(cquote.position * cquote.lastPrice, 2) }}
+                                </p>
+                            </div>
+                            <div class="tbar-item">
+                                <p class="body-1">Avg Cost</p>
+                                <p class="title">${{ format_number(cquote.avgCost) }}</p>
+                            </div>
+                            <div class="tbar-item">
+                                <p class="body-1">Unrealized P/L</p>
+                                <p class="title" :class="v_pm_color(cquote.unrealizedPNL, 0, true)">
+                                    {{ plus_minus(cquote.unrealizedPNL, 2, true, false) }}
+                                    <span class="t-bold">
+                                        ({{ plus_minus(calc_percent(cquote.lastPrice, cquote.avgCost)) }}%)
+                                    </span>
+                                </p>
+                            </div>
+                        </template>
+                    </v-layout>
+
+                </v-layout>
+
+                <v-spacer v-else />
+
+                <v-btn large flat class="ma-0 px-4 mr-4" v-on:click="reset">Reset</v-btn>
+                <v-btn large class="ma-0 px-4" :disabled="v_cansubmit" :color="is_buy ? 'success' : 'error'"
+                    v-on:click="submit" :loading="busy">{{ submit_text }}</v-btn>
+
+            </v-layout>
+
+
+
+        </v-card>
+    </v-container>
+</v-bottom-sheet>
+

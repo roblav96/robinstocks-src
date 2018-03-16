@@ -1,0 +1,33 @@
+<!--  -->
+
+<div class="route-wrapper profiling-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <main>
+        <v-container fluid class="pa-4">
+
+            <v-text-field class="mb-4" label="Search..." solo spellcheck="false" v-model="search"
+                prepend-icon="search"></v-text-field>
+
+            <v-card>
+                <v-data-table class="table--left table--narrow table--narrower" :headers="headers"
+                    :items="v_items" :pagination.sync="pagination" hide-actions>
+                    <template slot="items" slot-scope="props">
+                        <td>{{ props.item.file }}:{{ props.item.line }}</td>
+                        <td>{{ props.item.name }}</td>
+                        <td>{{ props.item.count }}</td>
+                        <td>{{ props.item.calls }}</td>
+                    </template>
+                </v-data-table>
+            </v-card>
+
+        </v-container>
+    </main>
+
+</div>
+

@@ -1,0 +1,53 @@
+<!--  -->
+
+<div class="route-wrapper logger-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+    </v-toolbar>
+
+    <main id="diag_main" v-on:scroll="onScroll">
+        <v-container fluid class="pa-4">
+
+            <v-card class="table__overflow">
+                <table class="datatable table shadow-none table--narrow table--left">
+                    <thead>
+                        <tr>
+                            <th class="t-center">Node</th>
+                            <th class="t-center">Type</th>
+                            <th>Stamp</th>
+                            <th>Stack</th>
+                            <th width="100%">Message</th>
+                        </tr>
+                    </thead>
+                    <transition-group tag="tbody" v-on:before-enter="beforeEnter" v-on:after-enter="afterEnter">
+                        <tr v-for="(item, index) in logs" :key="index">
+                            <td class="body-1 t-center t-500">{{ item.instance }}</td>
+                            <td class="body-1 t-center">
+                                <span class="px-2 pt-05 pb-05 white--text" :class="chipClass(item)" style="border-radius: 10px;">
+                                    {{ item.type }}
+                                </span>
+                            </td>
+                            <td class="body-1">{{ item.moment }}</td>
+                            <td class="body-1">{{ item.stack }}</td>
+                            <td class="caption">
+                                <pre>{{ item.message }}</pre>
+                            </td>
+                        </tr>
+                    </transition-group>
+                </table>
+            </v-card>
+
+            <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown">
+                <v-btn v-show="showfab" color="primary" dark fab fixed bottom right class="mr-3 mb-3 z-99 will-animate animated animated-faster"
+                    v-on:click="scrollToBottom(true)">
+                    <v-icon medium>vertical_align_bottom</v-icon>
+                </v-btn>
+            </transition>
+
+        </v-container>
+    </main>
+
+</div>
+

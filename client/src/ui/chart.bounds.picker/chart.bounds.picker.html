@@ -1,0 +1,12 @@
+<!--  -->
+
+<v-menu lazy v-bind:right="right" v-bind:left="left" v-bind:close-on-content-click="false" transition="slide-y-reverse-transition"
+    offset-y>
+    <v-btn flat class="mx-0" slot="activator">
+        <v-icon left>event</v-icon>
+        <span class="t-transform-none">{{ formatted }}</span>
+    </v-btn>
+    <v-date-picker v-if="type == 'date'" v-model="value" autosave></v-date-picker>
+    <v-time-picker v-if="type == 'time'" v-model="value" autosave></v-time-picker>
+</v-menu>
+

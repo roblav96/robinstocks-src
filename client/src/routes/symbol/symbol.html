@@ -1,0 +1,111 @@
+<!--  -->
+
+<div class="route-wrapper symbol-route">
+
+    <v-toolbar dark color="success">
+
+        <v-btn large flat class="btn-px-0 px-3 mx-1 my-0" style="height: calc(100% - 8px);"
+            v-on:click="pickSymbol">
+            <v-layout row align-center justify-center class="symbol-logo elevation-2 mr-3">
+                <img :src="logo_url(symbol)" v-on:error="logo_url_error">
+            </v-layout>
+            <div class="t-left t-transform-none body-1 t-lh0">
+                <p style="margin-top: -6px;">
+                    <span class="display-1 t-bold">{{ cquote.symbol }}</span>
+                    &nbsp;{{ cquote.name }}
+                </p>
+                <p v-show="cquote.type">
+                    {{ quote_type(cquote.type) }} - {{ cquote.acronym }} ({{ v_status(cquote) }})
+                </p>
+            </div>
+        </v-btn>
+
+        <v-toolbar dark color="secondary" class="mx-0 br-0 card shadow-none flex-1">
+            <v-layout row align-center class="flex-1 h-100 scroll-x scroll-y-hidden scrollbar-mini mr-3"
+                v-on:mousewheel="v_mousewheelx">
+                <symbol-toolbar :cquote="cquote" :syncstamp="true" />
+            </v-layout>
+        </v-toolbar>
+
+    </v-toolbar>
+
+
+
+    <transition enter-active-class="fadeIn" leave-active-class="hidden">
+        <component :is="tabs[index].id" class="animated animated-fast" />
+    </transition>
+
+    <v-layout row align-center class="secondary flex-initial theme--dark">
+        <v-bottom-nav color="success" :active.sync="index">
+            <v-btn flat class="white--text" v-for="item in tabs">
+                <span>{{ item.dname }}</span>
+                <v-icon>{{ item.icon }}</v-icon>
+            </v-btn>
+        </v-bottom-nav>
+
+        <v-spacer />
+
+        <v-layout v-if="cquote.symbol && (cquote.position != 0 || cquote.realizedPNL != 0)"
+            row align-center class="flex-initial mx-3 white--text scroll-x scroll-y-hidden scrollbar-mini"
+            style="height: 56px;" v-on:mousewheel="v_mousewheelx">
+
+            <!-- <v-layout row align-center class="flex-1 h-100 scroll-x scroll-y-hidden scrollbar-mini mr-3"
+                v-on:mousewheel="v_mousewheelx"> -->
+            <v-layout row align-center class="t-nowrap animated animated-fast fadeIn h-100">
+                <div class="tbar-item">
+                    <p class="body-1">Orders</p>
+                    <p class="title">{{ format_number(ib_orders_count(symbol), 0) }}</p>
+                </div>
+                <div class="tbar-item">
+                    <p class="body-1">Realized P/L</p>
+                    <p class="title" :class="v_pm_color(cquote.realizedPNL, 0, true)">
+                        {{ plus_minus(cquote.realizedPNL, 2, true, false) }}
+                    </p>
+                </div>
+                <div class="tbar-item">
+                    <p class="body-1">Commissions</p>
+                    <p class="title" :class="v_pm_color(-ib_commissions(symbol), 0, true)">
+                        {{ plus_minus(-ib_commissions(symbol), 2, true, false) }}
+                    </p>
+                </div>
+                <template v-if="cquote.position != 0">
+                    <div class="tbar-item">
+                        <p class="body-1">Market Value</p>
+                        <p class="title">
+                            ${{ format_number(cquote.position * cquote.lastPrice, 2) }}
+                        </p>
+                    </div>
+                    <div class="tbar-item">
+                        <p class="body-1">Avg Cost</p>
+                        <p class="title">${{ format_number(cquote.avgCost) }}</p>
+                    </div>
+                    <div class="tbar-item">
+                        <p class="body-1">Unrealized P/L</p>
+                        <p class="title" :class="v_pm_color(cquote.unrealizedPNL, 0, true)">
+                            {{ plus_minus(cquote.unrealizedPNL, 2, true, false) }}
+                            <span class="t-bold">
+                                ({{ plus_minus(calc_percent(cquote.lastPrice, cquote.avgCost)) }}%)
+                            </span>
+                        </p>
+                    </div>
+                </template>
+            </v-layout>
+            <!-- </v-layout> -->
+
+        </v-layout>
+
+        <v-layout row align-center class="flex-initial mr-3" style="height: 56px;">
+
+            <v-btn icon flat large :color="cquote.liveTrading ? 'success' : 'white'" class="ma-0 btn-px-0"
+                v-on:click="ib_toggleTrading(cquote.symbol)">
+                <v-icon large>
+                    {{ cquote.liveTrading ? 'mdi-lightbulb' : 'mdi-lightbulb-outline' }}
+                </v-icon>
+            </v-btn>
+
+        </v-layout>
+
+    </v-layout>
+
+</div>
+

@@ -1,0 +1,40 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-layout row align-start>
+
+            <v-card class="flex-1">
+                <v-toolbar dark flat dense color="primary">
+                    <p class="headline">Calc Quote</p>
+                    <v-spacer />
+                    <v-btn small color="warning" class="mr-2" v-on:click="migrateStorage">
+                        Migrate Storage
+                    </v-btn>
+                </v-toolbar>
+                
+                <v-layout column align-center class="pa-2">
+                    <v-text-field ref="symbol_debug_search" label="Search..." solo spellcheck="false"
+                        v-model="search" prepend-icon="search" clearable hide-details></v-text-field>
+                </v-layout>
+                <v-divider />
+                
+                <v-data-table v-show="cquote.symbol" class="table--left table--narrow" :items="v_cquote"
+                    hide-actions>
+                    <template slot="items" scope="props">
+                        <td class="body-1 t-nowrap" width="1">{{ starts_case(props.item.key) }}</td>
+                        <td class="body-2">{{ v_value(props.item.key, props.item.value) }}</td>
+                    </template>
+                </v-data-table>
+            </v-card>
+
+            <div class="w-4"></div>
+
+            <v-card class="flex-1"></v-card>
+
+        </v-layout>
+
+    </v-container>
+</main>
+

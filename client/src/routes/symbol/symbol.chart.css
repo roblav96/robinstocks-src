@@ -1,0 +1,27 @@
+/**/
+
+.symbol-chart-sidenav {
+    position: absolute !important;
+    top: 64px !important;
+    height: calc(100vh - 120px) !important;
+}
+
+.symbol-chart-sidenav .list__tile__action.title {
+    min-width: 5rem;
+}
+
+.symbol-chart-spacer {
+    margin-right: 350px !important;
+}
+
+.symbol-chart-toolbar .scroll-x button.btn--outline {
+    border-width: 1px;
+}
+
+#sc_datasets_scroll > div.layout > button:last-child {
+    margin-right: 1px !important;
+}
+
+
+/**/
+

@@ -1,0 +1,23 @@
+/**/
+
+.order-sheet .symbol-logo {
+    border-radius: 2px;
+    background-color: white;
+    /*width: 46px;
+    height: 46px;*/
+}
+
+.order-sheet .symbol-logo img {
+    border-radius: 2px;
+    min-width: 46px;
+    max-width: 46px;
+    max-height: 46px;
+}
+
+.order-sheet .scroll-x.scrollbar-mini > div.layout > div:last-child {
+    margin-right: 1px !important;
+}
+
+
+/**/
+

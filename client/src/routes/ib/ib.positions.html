@@ -1,0 +1,77 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-card>
+            <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+                <v-progress-linear v-show="!parent.ready" class="will-animate animated my-0" style="position: absolute;"
+                    height="4" indeterminate>
+                </v-progress-linear>
+            </transition>
+
+            <v-data-table v-show="parent.ready && v_items.length > 0" class="table--left table--narrow table--narrower animated animated-fast fadeIn"
+                :headers="headers" :items="v_items" :pagination.sync="pagination" must-sort
+                hide-actions>
+                <template slot="items" scope="props">
+                    <tr v-on:click="debugItem(props.item)">
+                        <td class="pr-2">
+                            <symbol-chip :symbol="props.item.symbol" :small="true" />
+                        </td>
+                        <td class="body-1 py-0">
+                            <v-btn flat icon :color="props.item.liveTrading ? 'success' : 'grey'" class="ma-0"
+                                v-on:click.stop="ib_toggleTrading(props.item.symbol)">
+                                <v-icon medium>
+                                    {{ props.item.liveTrading ? 'mdi-lightbulb' : 'mdi-lightbulb-outline' }}
+                                </v-icon>
+                            </v-btn>
+                        </td>
+                        <td class="body-1">{{ format_number(props.item.position, 0) }}</td>
+                        <td class="body-1">${{ format_number(props.item.equity, 2) }}</td>
+                        <td class="body-1" :class="v_pm_color(props.item.unrealizedPNL, 0)">
+                            {{ plus_minus(props.item.unrealizedPNL, 2, true, false) }}
+                            <span class="t-bold">({{ plus_minus(props.item.unrealizedPNLpercent, 2) }}%)</span>
+                        </td>
+                        <td class="body-1">${{ format_number(props.item.avgCost, 2) }}</td>
+                        <td class="body-1">
+                            ${{ format_number(props.item.lastPrice, 2) }}
+                            <span class="caption t-300">({{ from_now(props.item.lastStamp) }})</span>
+                        </td>
+                        <td class="body-1">{{ from_now(props.item.stamp) }}</td>
+                        <td>
+                            <v-btn small color="success" outline class="ma-0 btn-px-0 px-2 w-initial mr-1" v-on:click.stop="ib_createOrder('buy', props.item.symbol)">
+                                Buy
+                            </v-btn>
+                            <v-btn small color="error" outline class="ma-0 btn-px-0 px-2 w-initial" v-on:click.stop="ib_createOrder('sell', props.item.symbol)">
+                                Sell
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+                <template slot="footer">
+                    <td colspan="3"></td>
+                    <td colspan="1">
+                        <p class="caption t-500 text--light mb-05">Total Market Value</p>
+                        <p class="title t-400">${{ format_number(parent.v_equity, 2) }}</p>
+                    </td>
+                    <td colspan="2">
+                        <p class="caption t-500 text--light mb-05">Total Unrealized P/L</p>
+                        <p class="title t-400" :class="[ parent.v_total_unrealizedPNL > 0 ? 'success--text' : 'error--text' ]">
+                            {{ plus_minus(parent.v_total_unrealizedPNL, 2, true, false) }}
+                            <span class="t-bold">({{ plus_minus(parent.v_total_unrealizedPNL_percent,
+                                2) }}%)</span>
+                        </p>
+                    </td>
+                    <td colspan="2"></td>
+                    <td>
+                        <v-btn color="error" class="ma-0 btn-px-0 px-3 w-initial" v-on:click.stop="ib_liquidate">
+                            Liquidate
+                        </v-btn>
+                    </td>
+                </template>
+            </v-data-table>
+        </v-card>
+
+    </v-container>
+</main>
+

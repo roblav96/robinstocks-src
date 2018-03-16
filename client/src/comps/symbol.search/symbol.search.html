@@ -1,0 +1,67 @@
+<!--  -->
+
+<v-dialog v-model="symbolsearch.show" full-width content-class="symbol-search-wrapper ma-0"
+    :scrollable="false" transition="slide-y-transition">
+    <v-layout column class="card shadow-none">
+
+        <v-toolbar dark class="secondary">
+            <form class="ml-2 mr-4" v-on:submit.prevent="submit(query)" autocomplete="off">
+                <v-text-field id="ss_query_input" light label="Company Search..." solo spellcheck="false"
+                    v-model="query" prepend-icon="search"></v-text-field>
+            </form>
+
+            <v-layout row align-center id="ss_chips_scroll" class="flex-1 h-100 scroll-x scroll-y-hidden scrollbar-mini"
+                v-on:mousewheel="v_mousewheelx">
+                <v-layout row class="">
+                    <div class="mr-4 clickable" v-for="item in symbolsearch.history" v-on:click="choose(item.symbol)">
+                        <symbol-chip class="" :symbol="item.symbol" :clickthru="true" tabindex="-1"></symbol-chip>
+                    </div>
+                </v-layout>
+            </v-layout>
+
+            <v-btn icon large class="my-0 mx-3" v-on:click="close" tabindex="-1">
+                <v-icon large class="t-bold headline">close</v-icon>
+            </v-btn>
+        </v-toolbar>
+
+        <v-layout id="ss_table_scroll" class="table__overflow flex-1 scroll-y mt-1">
+            <table class="datatable table table--left table--narrow">
+                <thead>
+                    <tr>
+                        <th width="1">Symbol</th>
+                        <th width="1">Type</th>
+                        <th>Company</th>
+                        <th width="1">Price</th>
+                        <th width="1">Change</th>
+                        <th width="1">Volume</th>
+                        <th width="1">Market Cap</th>
+                        <th width="1">Shares Out</th>
+                        <th>Last Sale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable outline-0 select-none" tabindex="0" v-on:focus="focused = index"
+                        v-for="(item, index) in items" v-on:click="choose(item.symbol)"
+                        v-on:keyup.enter="submit">
+                        <td>
+                            <symbol-chip :symbol="item.symbol" :clickthru="true" tabindex="-1"></symbol-chip>
+                        </td>
+                        <td class="body-1">{{ item.type }}</td>
+                        <td class="body-2">{{ item.name }}</td>
+                        <td class="body-1">{{ format_price(item.lastPrice) }}</td>
+                        <td class="body-1" :class="[ item.priceChange > 0 ? 'success--text' : 'error--text' ]">
+                            {{ plus_minus(item.lastPrice - item.prevClose) }}
+                            <span class="t-bold">({{ plus_minus(item.priceChange) }}%)</span>
+                        </td>
+                        <td class="body-1">{{ format_volume(item.volume) }}</td>
+                        <td class="body-1">{{ format_volume(item.marketCap) }}</td>
+                        <td class="body-1">{{ format_volume(item.sharesOutstanding) }}</td>
+                        <td class="body-1">{{ from_now(item.lastStamp) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </v-layout>
+
+    </v-layout>
+</v-dialog>
+

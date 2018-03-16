@@ -1,0 +1,13 @@
+<!--  -->
+
+<v-app id="root" v-bind:class="{ 'anim-loading': initing, 'animated animated-fast fadeIn': !initing }">
+    <m-menu />
+    <v-toolbar dark class="primary toolbar-bg shadow-none" />
+    <transition mode="out-in" enter-active-class="fadeIn" leave-active-class="fadeOut">
+        <router-view class="animated animated-fastest" />
+    </transition>
+    <order-sheet />
+    <symbol-search />
+    <snackbar />
+</v-app>
+

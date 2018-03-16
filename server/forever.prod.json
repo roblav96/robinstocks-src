@@ -1,0 +1,9 @@
+{
+	"uid": "rs-prod",
+	"append": true,
+	"killTree": true,
+	"watch": false,
+	"script": "dist/server.js",
+	"args": ["$env", "PRODUCTION"]
+}
+

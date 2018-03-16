@@ -1,0 +1,72 @@
+<!--  -->
+
+<div class="route-wrapper processes-route">
+
+    <v-toolbar dark color="primary">
+        <v-icon large class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+
+        <v-spacer />
+
+        <div v-if="v_show_list" class="subheading t-lh3 t-right mr-4">
+            <p>
+                <span class="t-500">{{ data.processes.blocked }}</span>
+                Blocked
+            </p>
+            <p>
+                <span class="t-500">
+                    {{ data.processes.running }}/{{ data.processes.all }}
+                </span>
+                Running
+            </p>
+        </div>
+
+        <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+            <v-progress-circular v-show="!v_show_list" indeterminate color="white" :size="36" :width="8" class="animated animated-fast"
+            />
+        </transition>
+    </v-toolbar>
+
+    <!-- <v-layout column align-center class="pa-4 flex-initial" style="margin-left: 80px;">
+        <v-layout column align-center class="card secondary pa-2 w-100">
+            <v-text-field ref="processes_search" label="Search..." solo spellcheck="false" v-model="search" prepend-icon="search"
+                clearable hide-details></v-text-field>
+        </v-layout>
+    </v-layout> -->
+
+    <v-layout column align-center class="pa-4 flex-initial" style="margin-left: 80px;">
+        <v-text-field ref="processes_search" label="Search..." solo spellcheck="false" v-model="search" prepend-icon="search"
+            clearable hide-details></v-text-field>
+    </v-layout>
+
+    <main id="processes_scroll" v-on:scroll="onScrollY">
+        <v-container v-if="v_show_list" fluid class="px-4 pt-0 pb-5 animated animated-fast fadeIn">
+
+            <v-data-table class="card table--left table--narrow" :headers="headers" :items="v_processes" :pagination.sync="pagination"
+                must-sort hide-actions>
+                <template slot="items" scope="props">
+                    <tr>
+                        <td class="body-1" v-for="header in headers" :class="{ 'body-2': pagination.sortBy == header.value }">
+                            <v-icon v-if="header.value == 'state'" :color="props.item.state == 'running' ? 'success' : ''">
+                                {{ props.item.state == 'running' ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank' }}
+                            </v-icon>
+
+                            <!-- <v-progress-circular v-else-if="header.value == 'pmem'" class="" :size="36" :width="4" :rotate="90" :value="props.item.pmem"
+                                color="info">
+                                {{ props.item.pmem }}
+                            </v-progress-circular> -->
+
+                            <span v-else>
+                                {{ v_value(props.item, header) }}
+                            </span>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+
+
+        </v-container>
+    </main>
+
+</div>
+

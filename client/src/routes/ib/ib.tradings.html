@@ -1,0 +1,85 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-card>
+            <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+                <v-progress-linear v-show="!parent.ready" class="will-animate animated my-0" style="position: absolute;"
+                    height="4" indeterminate>
+                </v-progress-linear>
+            </transition>
+
+            <v-data-table v-show="parent.ready && v_items.length > 0" class="table--left table--narrow table--narrower animated animated-fast fadeIn"
+                :headers="headers" :items="v_items" :pagination.sync="pagination" :custom-sort="customOrderBy"
+                must-sort hide-actions>
+                <template slot="items" scope="props">
+                    <tr v-on:click="debugItem(props.item)">
+                        <td class="pr-2">
+                            <symbol-chip :symbol="props.item.symbol" :small="true" />
+                        </td>
+                        <td class="body-1 py-0">
+                            <v-btn flat icon :color="props.item.liveTrading ? 'success' : 'grey'" class="ma-0"
+                                v-on:click.stop="ib_toggleTrading(props.item.symbol)">
+                                <v-icon medium>
+                                    {{ props.item.liveTrading ? 'mdi-lightbulb' : 'mdi-lightbulb-outline' }}
+                                </v-icon>
+                            </v-btn>
+                        </td>
+                        <td class="body-1">{{ format_number(props.item.orders, 0) }}</td>
+                        <td class="body-1 t-bold" :class="v_pm_color(props.item.realizedPNL, 0)">
+                            <span v-show="props.item.realizedPNL">
+                                {{ plus_minus(props.item.realizedPNL, 2, true, false) }}
+                            </span>
+                        </td>
+                        <td class="body-1" :class="v_pm_color(props.item.unrealizedPNL, 0)">
+                            <span v-show="props.item.unrealizedPNL">
+                                {{ plus_minus(props.item.unrealizedPNL, 2, true, false) }}
+                            </span>
+                        </td>
+                        <td class="body-1" :class="v_pm_color(-props.item.commissions, 0)">
+                            <span v-show="props.item.commissions">
+                                {{ plus_minus(-props.item.commissions, 2, true, false) }}
+                            </span>
+                        </td>
+                        <td class="body-1">
+                            ${{ format_number(props.item.lastPrice, 2) }}
+                            <span class="caption t-300">({{ from_now(props.item.lastStamp) }})</span>
+                        </td>
+                        <td class="body-1">{{ from_now(props.item.stamp) }}</td>
+                        <td>
+                            <v-btn small color="success" outline class="ma-0 btn-px-0 px-2 w-initial mr-1" v-on:click.stop="ib_createOrder('buy', props.item.symbol)">
+                                Buy
+                            </v-btn>
+                            <v-btn small color="error" outline class="ma-0 btn-px-0 px-2 w-initial" v-on:click.stop="ib_createOrder('sell', props.item.symbol)">
+                                Sell
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+                <template slot="footer">
+                    <td colspan="1"></td>
+                    <td colspan="2">
+                        <v-btn color="error" class="ma-0 btn-px-0 px-3 w-initial" v-on:click.stop="ib_toggleAllOff">
+                            Disable All
+                        </v-btn>
+                    </td>
+                    <td colspan="2">
+                        <p class="caption t-500 text--light mb-05">Total Realized P/L</p>
+                        <p class="title t-bold" :class="v_pm_color(parent.v_total_realizedPNL, 0)">
+                            {{ plus_minus(parent.v_total_realizedPNL, 2, true, false) }}
+                        </p>
+                    </td>
+                    <td colspan="4">
+                        <p class="caption t-500 text--light mb-05">Total Commissions</p>
+                        <p class="title t-400" :class="v_pm_color(-v_total_commissions, 0)">
+                            {{ plus_minus(-v_total_commissions, 2, true, false) }}
+                        </p>
+                    </td>
+                </template>
+            </v-data-table>
+        </v-card>
+
+    </v-container>
+</main>
+

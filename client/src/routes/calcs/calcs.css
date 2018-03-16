@@ -1,0 +1,33 @@
+/**/
+
+.calcs-route .symbol-chip-btn {
+    transition: unset;
+}
+
+.calcs-route .ct-chart-line {
+    margin-top: 4px;
+    min-width: 200px;
+    max-height: 40px;
+}
+
+.calcs-route .ct-line {
+    stroke-width: 2px;
+}
+
+.calcs-route .ct-success .ct-line {
+    stroke: #69F0AE;
+}
+
+.calcs-route .ct-error .ct-line {
+    stroke: #FF5252;
+}
+
+.calcs-route .ct-eods .ct-line {
+    stroke-width: 1px;
+    stroke: black;
+    stroke-dasharray: 2px 2px;
+}
+
+
+/**/
+

@@ -1,0 +1,57 @@
+<!--  -->
+
+<div class="route-wrapper markets-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <main>
+        <v-container fluid class="py-4 px-2">
+            <v-layout row align-start wrap class="">
+                <v-flex xs4 class="px-3 mb-4" v-for="item in mkcquotes">
+
+                    <div class="card">
+                        <v-toolbar dark dense flat class="title" :color="item.change >= 0 ? 'success' : 'error'">
+                            <p>{{ item.name }}</p>
+                            <v-spacer />
+                            <p>{{ item.symbol }}</p>
+                        </v-toolbar>
+                        <!-- <p class="t-18 t-300 white--text pl-3 py-2" :class="[ item.change >= 0 ? 'success' : 'error' ]">{{ item.name }}</p> -->
+
+                        <markets-chart :mkcquote="item" />
+                        <!-- <markets-chart :class="[ item.change > 0 ? 'ct-success' : 'ct-error' ]"
+                            :mkcquote="item" /> -->
+                        <!-- <div v-chart="item.symbol"></div> -->
+
+                        <v-divider />
+
+                        <p class="title py-3 ml-3">
+                            {{ format_price(item.lastPrice) }}
+                            <span class="t-400" :class="[ item.change > 0 ? 'success--text' : 'error--text' ]">
+                                {{ plus_minus(item.change, 2, false, false) }} ({{ plus_minus(item.changePercent) }}%)
+                            </span>
+                        </p>
+
+                        <v-divider />
+
+                        <table class="datatable table table--left table--narrow table--narrower">
+                            <tbody>
+                                <tr v-if="v_good(item[header.key])" v-for="header in headers">
+                                    <td class="body-1">{{ header.text }}</td>
+                                    <td width="1" class="body-2 t-right">{{ v_value(item, header.key) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </main>
+
+</div>
+

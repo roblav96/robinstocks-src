@@ -1,0 +1,11 @@
+{
+	"uid": "rs-dev",
+	"append": true,
+	"killTree": true,
+	"watch": true,
+	"watchDirectory": "dist/**/*.js",
+	"watchIgnore": "node_modules",
+	"script": "dist/server.js",
+	"args": ["$env", "DEVELOPMENT"]
+}
+

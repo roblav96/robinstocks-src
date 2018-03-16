@@ -1,0 +1,512 @@
+<!--  -->
+
+<div class="route-wrapper system-route">
+
+    <v-toolbar dark color="primary">
+        <v-icon large class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+
+        <v-spacer />
+
+        <div v-if="data.osInfo" class="subheading t-lh3 t-right mr-4">
+            <p>
+                {{ data.osInfo.platform }} {{ data.osInfo.arch }}
+            </p>
+            <p>
+                {{ data.osInfo.distro }} {{ data.osInfo.release }} {{ starts_case(data.osInfo.codename) }}
+            </p>
+        </div>
+
+        <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+            <v-progress-circular v-show="v_empty" indeterminate color="white" :size="36" :width="8" class="animated animated-fast"></v-progress-circular>
+        </transition>
+    </v-toolbar>
+
+    <main id="system_scroll">
+        <v-container v-if="!v_empty" fluid class="pa-4 animated animated-fast fadeIn">
+
+
+
+
+
+            <div class="card pb-4 mb-4">
+
+                <v-toolbar dark flat color="secondary" class="mb-4">
+                    <v-icon large class="mr-3">mdi-chip</v-icon>
+                    <p class="headline t-bold">Central Processing Unit</p>
+                    <v-spacer />
+                    <div class="subheading t-lh4 t-right">
+                        <p>{{ data.cpu.speedmax }} GHz {{ data.cpu.cores }} Core</p>
+                        <p>{{ data.cpu.manufacturer }} {{ data.cpu.brand }}</p>
+                    </div>
+                </v-toolbar>
+
+                <v-layout row class="px-4">
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-atom</v-icon>
+                            <p class="title">Processor Usage</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-3" />
+                        <v-layout row wrap justify-space-around>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="data.currentLoad.avgload">
+                                <div>
+                                    <p class="text">Average</p>
+                                    <p class="title">
+                                        {{ format_number(data.currentLoad.avgload, 0) }}%
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="data.currentLoad.currentload">
+                                <div>
+                                    <p class="text">Current</p>
+                                    <p class="title">
+                                        {{ format_number(data.currentLoad.currentload, 0) }}%
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="data.currentLoad.currentload_user">
+                                <div>
+                                    <p class="text">User</p>
+                                    <p class="title">
+                                        {{ format_number(data.currentLoad.currentload_user, 0) }}%
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="data.currentLoad.currentload_system">
+                                <div>
+                                    <p class="text">System</p>
+                                    <p class="title">
+                                        {{ format_number(data.currentLoad.currentload_system, 0) }}%
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                        </v-layout>
+
+                        <table class="system-range-table">
+                            <tr class="text--light">
+                                <th width="1">Core</th>
+                                <th width="1">Used</th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading" v-for="(cpu, i) in data.currentLoad.cpus">
+                                <td>{{ i + 1 }}</td>
+                                <td class="t-bold info--text">{{ format_number(cpu.load, 0) }}%</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="cpu.load"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                    <div class="w-4" />
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-speedometer</v-icon>
+                            <p class="title">Clock Speed</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table header--hide mb-4">
+                            <tr class="text--light">
+                                <th width="1"></th>
+                                <th width="1"></th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading">
+                                <td>Lowest</td>
+                                <td class="t-bold info--text">{{ v_round(data.cpuCurrentspeed.min, 1) }} GHz</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_cpu_speed_range(data.cpuCurrentspeed.min)"></v-progress-linear>
+                                </td>
+                            </tr>
+                            <tr class="subheading">
+                                <td>Highest</td>
+                                <td class="t-bold info--text">{{ v_round(data.cpuCurrentspeed.max, 1) }} GHz</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_cpu_speed_range(data.cpuCurrentspeed.max)"></v-progress-linear>
+                                </td>
+                            </tr>
+                            <tr class="subheading">
+                                <td>Average</td>
+                                <td class="t-bold info--text">{{ v_round(data.cpuCurrentspeed.avg, 1) }} GHz</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_cpu_speed_range(data.cpuCurrentspeed.avg)"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-thermometer-lines</v-icon>
+                            <p class="title">Temperatures</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-3" />
+                        <v-layout row wrap justify-space-around>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="v_temp_range(data.cpuTemperature.main)">
+                                <div>
+                                    <p class="text">Main</p>
+                                    <p class="title">
+                                        {{ format_number(data.cpuTemperature.main, 0) }}℃
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="v_temp_range(data.cpuTemperature.cores[0])">
+                                <div>
+                                    <p class="text">Core 1</p>
+                                    <p class="title">
+                                        {{ format_number(data.cpuTemperature.cores[0], 0) }}℃
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="v_temp_range(data.cpuTemperature.cores[7])">
+                                <div>
+                                    <p class="text">Core 16</p>
+                                    <p class="title">
+                                        {{ format_number(data.cpuTemperature.cores[7], 0) }}℃
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                            <v-progress-circular class="system-circle" color="info" :size="110" :width="16" :rotate="90" :value="v_temp_range(data.cpuTemperature.max)">
+                                <div>
+                                    <p class="text">Max</p>
+                                    <p class="title">
+                                        {{ format_number(data.cpuTemperature.max, 0) }}℃
+                                    </p>
+                                </div>
+                            </v-progress-circular>
+                        </v-layout>
+                        <table class="system-range-table">
+                            <tr class="text--light">
+                                <th width="1">Cores</th>
+                                <th width="1">Temp</th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading" v-for="(temperature, i) in data.cpuTemperature.cores">
+                                <td>{{ (i * 2) + 1 }} - {{ (i * 2) + 2 }}</td>
+                                <td class="t-bold info--text">{{ format_number(temperature, 0) }}℃</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_temp_range(temperature)"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                </v-layout>
+            </div>
+
+
+
+
+
+            <div class="card pb-0 mb-4">
+
+                <v-toolbar dark flat color="secondary" class="mb-4">
+                    <v-icon large class="mr-3">mdi-memory</v-icon>
+                    <p class="headline t-bold">Random Access Memory</p>
+                </v-toolbar>
+
+                <v-layout row wrap justify-space-around>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="data.mem.total">
+                        <div>
+                            <p class="text">Total</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.total, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="v_mem_range(data.mem.available)">
+                        <div>
+                            <p class="text">Available</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.available, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="v_mem_range(data.mem.free)">
+                        <div>
+                            <p class="text">Free</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.free, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="v_mem_range(data.mem.used)">
+                        <div>
+                            <p class="text">Used</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.used, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="v_mem_range(data.mem.active)">
+                        <div>
+                            <p class="text">Active</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.active, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                    <v-progress-circular class="system-circle" color="info" :size="120" :width="16" :rotate="90" :value="v_mem_range(data.mem.buffcache)">
+                        <div>
+                            <p class="text">Buff+Cache</p>
+                            <p class="title">
+                                {{ v_format_bytes(data.mem.buffcache, 0) }}
+                            </p>
+                        </div>
+                    </v-progress-circular>
+                </v-layout>
+
+            </div>
+
+
+
+
+
+            <div class="card pb-4 mb-4">
+
+                <v-toolbar dark flat color="secondary" class="mb-4">
+                    <v-icon large class="mr-3">mdi-harddisk</v-icon>
+                    <p class="headline t-bold">File System</p>
+                </v-toolbar>
+
+                <v-layout row class="px-4">
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-content-save</v-icon>
+                            <p class="title">Hard Drives</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table mb-4">
+                            <tr class="text--light">
+                                <th>Capacity</th>
+                                <th>Model</th>
+                                <th>Physical</th>
+                                <th>Type</th>
+                                <th>Protocol</th>
+                            </tr>
+                            <tr class="subheading" v-for="item in v_blocks">
+                                <td class="t-bold info--text">{{ v_format_bytes(item.size, 0) }}</td>
+                                <td>{{ item.model }}</td>
+                                <td>{{ item.physical }}</td>
+                                <td>{{ starts_case(item.type) }}</td>
+                                <td>{{ item.protocol.toUpperCase() }}</td>
+                            </tr>
+                        </table>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-file-tree</v-icon>
+                            <p class="title">Partitions</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table">
+                            <tr class="text--light">
+                                <th width="1">Mount</th>
+                                <th width="1">Type</th>
+                                <th width="1">Capacity</th>
+                                <th width="1">Used</th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading" v-for="item in data.fsSize">
+                                <td>{{ item.mount }}</td>
+                                <td>{{ item.type }}</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(item.size, 0) }}</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(item.used, 0) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="item.use"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                    <div class="w-4" />
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-video-input-component</v-icon>
+                            <p class="title">Input Output</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table header--hide mb-4">
+                            <tr class="text--light">
+                                <th v-show="v_show_io_sec" width="1"></th>
+                                <th v-show="v_show_io_sec" width="1"></th>
+                                <th v-show="v_show_io_sec"></th>
+                                <th width="1"></th>
+                                <th width="1"></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_io_sec">Read</td>
+                                <td v-show="v_show_io_sec" class="t-bold info--text">{{ v_format_bytes(data.disksIO.rIO_sec) }}/s</td>
+                                <td v-show="v_show_io_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_io_sec_range(data.disksIO.rIO_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.disksIO.rIO, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_io_range(data.disksIO.rIO)"></v-progress-linear>
+                                </td>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_io_sec">Write</td>
+                                <td v-show="v_show_io_sec" class="t-bold info--text">{{ v_format_bytes(data.disksIO.wIO_sec) }}/s</td>
+                                <td v-show="v_show_io_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_io_sec_range(data.disksIO.wIO_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.disksIO.wIO, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_io_range(data.disksIO.wIO)"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-file-xml</v-icon>
+                            <p class="title">File System</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table header--hide">
+                            <tr class="text--light">
+                                <th v-show="v_show_fs_sec" width="1"></th>
+                                <th v-show="v_show_fs_sec" width="1"></th>
+                                <th v-show="v_show_fs_sec"></th>
+                                <th width="1"></th>
+                                <th width="1"></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_fs_sec">Read</td>
+                                <td v-show="v_show_fs_sec" class="t-bold info--text">{{ v_format_bytes(data.fsStats.rx_sec) }}/s</td>
+                                <td v-show="v_show_fs_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_fs_sec_range(data.fsStats.rx_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.fsStats.rx, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_fs_range(data.fsStats.rx)"></v-progress-linear>
+                                </td>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_fs_sec">Write</td>
+                                <td v-show="v_show_fs_sec" class="t-bold info--text">{{ v_format_bytes(data.fsStats.wx_sec) }}/s</td>
+                                <td v-show="v_show_fs_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_fs_sec_range(data.fsStats.wx_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.fsStats.wx, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_fs_range(data.fsStats.wx)"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                </v-layout>
+            </div>
+
+
+
+
+
+            <div class="card pb-4 mb-4">
+
+                <v-toolbar dark flat color="secondary" class="mb-4">
+                    <v-icon large class="mr-3">mdi-lan-connect</v-icon>
+                    <p class="headline t-bold">Network</p>
+                    <v-spacer />
+                    <div class="subheading t-lh4 t-right">
+                        <p>
+                            <span class="t-bold">{{ format_number(data.inetLatency) }} ms</span>
+                            Latency
+                        </p>
+                    </div>
+                </v-toolbar>
+
+                <v-layout row class="px-4">
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-power-plug</v-icon>
+                            <p class="title">Interfaces</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table">
+                            <tr class="text--light">
+                                <th>Interface</th>
+                                <th>IP Address</th>
+                                <th>Internal</th>
+                            </tr>
+                            <tr class="subheading" v-for="item in data.net">
+                                <td>{{ item.iface }}</td>
+                                <td class="t-bold info--text">{{ item.ip4 }}</td>
+                                <td>
+                                    <v-icon>
+                                        {{ item.internal ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank' }}
+                                    </v-icon>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                    <div class="w-4" />
+                    <v-flex xs6>
+
+                        <v-layout row align-center class="flex-initial mb-2">
+                            <v-icon medium class="mr-2">mdi-speedometer</v-icon>
+                            <p class="title">Transmit Speed</p>
+                        </v-layout>
+                        <v-divider class="flex-initial mb-2" />
+                        <table class="system-range-table header--hide">
+                            <tr class="text--light">
+                                <th v-show="v_show_net_sec" width="1"></th>
+                                <th v-show="v_show_net_sec" width="1"></th>
+                                <th v-show="v_show_net_sec"></th>
+                                <th width="1"></th>
+                                <th width="1"></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_net_sec">Upload</td>
+                                <td v-show="v_show_net_sec" class="t-bold info--text">{{ v_format_bytes(data.networkStats.tx_sec) }}/s</td>
+                                <td v-show="v_show_net_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_net_sec_range(data.networkStats.tx_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.networkStats.tx, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_net_range(data.networkStats.tx)"></v-progress-linear>
+                                </td>
+                            </tr>
+                            <tr class="subheading">
+                                <td v-show="v_show_net_sec">Download</td>
+                                <td v-show="v_show_net_sec" class="t-bold info--text">{{ v_format_bytes(data.networkStats.rx_sec) }}/s</td>
+                                <td v-show="v_show_net_sec">
+                                    <v-progress-linear color="info" height="12" :value="v_net_sec_range(data.networkStats.rx_sec)"></v-progress-linear>
+                                </td>
+                                <td>Total</td>
+                                <td class="t-bold info--text">{{ v_format_bytes(data.networkStats.rx, 1) }}</td>
+                                <td>
+                                    <v-progress-linear color="info" height="12" :value="v_net_range(data.networkStats.rx)"></v-progress-linear>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </v-flex>
+                </v-layout>
+            </div>
+
+
+
+
+
+        </v-container>
+    </main>
+
+</div>
+

@@ -1,0 +1,24 @@
+<!--  -->
+
+<div class="route-wrapper rh-route">
+
+    <v-toolbar dark class="primary pr-4">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+    </v-toolbar>
+
+    <transition enter-active-class="fadeIn" leave-active-class="hidden">
+        <component :is="tabs[index].id" class="animated animated-fast" />
+    </transition>
+
+    <v-bottom-nav class="primary" :active.sync="index">
+        <v-btn flat class="white--text" v-for="item in tabs">
+            <span>{{ item.dname }}</span>
+            <v-icon>{{ item.icon }}</v-icon>
+        </v-btn>
+    </v-bottom-nav>
+
+</div>
+

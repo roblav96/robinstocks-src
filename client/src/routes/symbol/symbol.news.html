@@ -1,0 +1,56 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+        <v-card>
+
+            <v-toolbar dark flat color="primary">
+                <v-icon large class="mr-3">mdi-newspaper</v-icon>
+                <div class="t-lh0">
+                    <p class="headline mr-2">News &amp; Media</p>
+                    <p class="caption mb-1">Updated {{ from_now(parent.cquote.newsStamp) }}</p>
+                </div>
+                <v-spacer />
+                <v-btn flat outline v-on:click="open_url(v_stocktwits)">
+                    Stocktwits
+                </v-btn>
+                <v-btn flat outline class="mr-3" v-on:click="open_url(v_yahoo)">
+                    Yahoo
+                </v-btn>
+            </v-toolbar>
+
+            <v-layout column align-center class="pa-2">
+                <v-text-field ref="symbol_news_search" label="Search..." solo spellcheck="false"
+                    v-model="search" prepend-icon="search" clearable hide-details></v-text-field>
+            </v-layout>
+
+            <v-data-table v-show="items.length > 0" class="table--left table--narrow animated animated-fast fadeIn"
+                :headers="headers" :items="v_items" :pagination.sync="pagination" must-sort
+                hide-actions>
+                <template slot="items" scope="props">
+                    <tr class="clickable" v-on:click="open_url(props.item.url)">
+                        <td width="1">
+                            <img class="elevation-2 br-50" :src="v_logo_url(v_source(props.item.source))" v-on:error="on_logo_error"
+                                style="width: 36px; height: 36px;">
+                        </td>
+                        <td class="caption">
+                            <p>{{ starts_case(props.item.api) }}</p>
+                            <p>{{ v_source(props.item.source) }}</p>
+                        </td>
+                        <td class="t-wrap-initial">
+                            <!-- <p class="body-2">{{ starts_case(props.item.min) }}</p> -->
+                            <p class="body-2">{{ v_decode(props.item.title) }}</p>
+                            <p v-show="props.item.title != props.item.summary" class="caption">
+                                {{ v_decode(props.item.summary) }}
+                            </p>
+                        </td>
+                        <td class="body-1">{{ from_now(props.item.published) }}</td>
+                        <td class="body-1">{{ from_now(props.item.stamp) }}</td>
+                    </tr>
+                </template>
+            </v-data-table>
+
+        </v-card>
+    </v-container>
+</main>
+

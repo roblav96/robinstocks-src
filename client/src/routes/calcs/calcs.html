@@ -1,0 +1,214 @@
+<!--  -->
+
+<div class="route-wrapper calcs-route">
+
+    <v-toolbar dark color="success">
+        <v-icon large class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>Stock Screener</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+        <!-- <v-tooltip bottom transition="false" open-delay="0" close-delay="0" color="accent" class="mr-4">
+            <v-btn flat icon large :color="live ? 'white' : 'error'" class="btn-px-0 ma-0" v-on:click="live = !live" slot="activator">
+                <v-icon large>{{ live ? 'sync' : 'sync_disabled' }}</v-icon>
+            </v-btn>
+            <span>Realtime screener updates</span>
+        </v-tooltip>
+
+        <v-btn large outline class="ma-0 mr-4" v-on:click="junk = !junk">
+            <v-icon left medium>{{ junk ? 'check_box' : 'check_box_outline_blank' }}</v-icon>
+            <span class="mr-2 t-18">Filter Junk</span>
+        </v-btn> -->
+
+        <!-- <v-menu bottom offset-y class="ma-0" content-class="shadow-none" :nudge-left="8" open-delay="0" open-on-hover
+            :close-on-content-click="false" transition="slide-y-transition">
+            <v-btn fab flat class="btn-px-0 ma-0 mr-4" slot="activator">
+                <v-icon large>mdi-settings</v-icon>
+            </v-btn>
+            <v-layout column class="px-2 pt-3">
+
+                <v-tooltip left transition="false" open-delay="0" close-delay="0" color="accent" class="ma-0 pb-3">
+                    <v-btn fab :color="syncing ? 'success' : 'error'" class="ma-0 elevation-4" v-on:click="syncing = !syncing"
+                        slot="activator">
+                        <v-icon medium>{{ syncing ? 'mdi-sync' : 'mdi-sync-off' }}</v-icon>
+                    </v-btn>
+                    <span>Realtime table updates</span>
+                </v-tooltip>
+
+            </v-layout>
+        </v-menu> -->
+
+        <!-- <v-btn fab flat class="btn-px-0 ma-0 mr-4" v-on:click="showpicker = !showpicker">
+            <v-icon large>mdi-filter</v-icon>
+        </v-btn> -->
+
+    </v-toolbar>
+
+    <main v-on:scroll="onScrollY">
+        <v-container fluid class="pa-4">
+
+
+
+
+
+            <v-navigation-drawer floating temporary absolute right width="300" class="h-initial pb-0" style="top: 0px; bottom: 48px;"
+                v-model="showpicker">
+                <v-layout column class="h-100">
+                    <v-toolbar dark dense flat color="secondary">
+                        <p class="title">Screener Filters</p>
+                        <v-spacer />
+                        <v-btn icon class="mr-2" v-on:click="showpicker = false">
+                            <v-icon>mdi-close-circle</v-icon>
+                        </v-btn>
+                    </v-toolbar>
+                    <v-layout class="px-2 pb-2 secondary flex-initial">
+                        <v-text-field id="calcs_filter_search" label="Search Filters..." solo color="success" spellcheck="false"
+                            v-model="filtersearch" prepend-icon="search" clearable hide-details></v-text-field>
+                    </v-layout>
+                    <v-list class="flex-1 scroll-y pt-0 pb-5">
+                        <v-list-tile ripple class="h-initial" v-for="(item, i) in v_filters" v-on:click="">
+                            <v-list-tile-content class="py-2">
+                                <v-list-tile-title class="body-2">{{ item.text }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-layout>
+            </v-navigation-drawer>
+
+
+
+
+
+            <div class="card">
+
+                <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+                    <v-progress-linear v-show="busy" class="my-0 will-animate animated animated-fast" style="position: absolute; top: -4px; height: 4px"
+                        indeterminate></v-progress-linear>
+                </transition>
+
+
+
+                <div v-show="items.length > 0" class="table__overflow table--center table--narrow animated animated-fast fadeIn"
+                    v-on:scroll="onScrollX">
+                    <table class="datatable table">
+                        <thead style="background-color: white;">
+                            <tr>
+                                <th width="1" class="t-left">Symbol</th>
+                                <th width="1" class="t-left"></th>
+                                <th width="1" class="px-0">Trading</th>
+                                <th width="1">Chart</th>
+                                <th v-ripple="!busy" class="px-2" v-for="header in headers" v-on:click="setSortBy(header.key)" :class="{ 'clickable': !busy, 'column--success': header.key == sortBy && descending, 'column--error': header.key == sortBy && !descending }">
+                                    {{ header.text }}
+                                    <v-icon v-show="header.key == sortBy" class="t-14 t-bold text--light" style="margin-top: -2px;">
+                                        {{ descending ? 'arrow_downward' : 'arrow_upward' }}
+                                    </v-icon>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, i) in items">
+                                <td class="pr-2">
+                                    <symbol-chip :symbol="item.symbol" :small="true"></symbol-chip>
+                                </td>
+                                <td class="caption">
+                                    <div class="t-left">
+                                        <p>{{ item.name }}</p>
+                                        <p>
+                                            {{ quote_type(item.type) }} - {{ item.acronym }} ({{ v_status(item) }})
+                                        </p>
+                                    </div>
+                                </td>
+                                <td class="py-0 px-0">
+                                    <v-btn flat icon :color="item.liveTrading ? 'success' : 'grey'" class="ma-0" v-on:click.stop="ib_toggleTrading(item.symbol)">
+                                        <v-icon>
+                                            {{ item.liveTrading ? 'mdi-lightbulb' : 'mdi-lightbulb-outline' }}
+                                        </v-icon>
+                                    </v-btn>
+                                </td>
+                                <td class="py-0" v-chart="item.symbol" :class="item.priceChange > 0 ? 'ct-success' : 'ct-error'"></td>
+                                <td v-for="header in headers" class="body-1" :class="{ 'body-2': header.key == sortBy, 'column--success': header.key == sortBy && descending, 'column--error': header.key == sortBy && !descending }">
+                                    <div v-if="header.key == 'lastStamp'">
+                                        <p class="t-lh4">
+                                            <span class="t-bold">{{ format_price(item.lastPrice) }}</span>
+                                            <span class="caption">
+                                                x {{ format_volume(item.size || item.lastSize) }}
+                                            </span>
+                                        </p>
+                                        <v-divider />
+                                        <p class="caption t-lh4">{{ from_now(item.lastStamp) }}</p>
+                                    </div>
+                                    <span v-else-if="header.key == 'priceChange'" class="t-bold" :class="[ item.priceChange >= 0 ? 'success--text' : 'error--text' ]">
+                                        {{ plus_minus(item.priceChange) }}%
+                                    </span>
+                                    <span v-else-if="header.pmcolor" :class="v_pm_color(item[header.key], 0)">
+                                        {{ plus_minus(item[header.key]) }}
+                                    </span>
+                                    <template v-else>{{ td_v(item, header.key, i) }}</template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+
+            <!-- <v-btn fab fixed large bottom right color="success" class="btn-px-0 ma-0" style="bottom: 48px; right: 64px;">
+                <v-icon large>mdi-filter</v-icon>
+            </v-btn> -->
+
+        </v-container>
+    </main>
+
+
+
+
+
+    <v-toolbar dark dense color="secondary" class="px-2">
+
+
+
+        <v-menu top offset-y open-on-hover class="ma-0" content-class="shadow-none" open-delay="0" :nudge-left="12"
+            :close-on-content-click="false" transition="slide-y-reverse-transition">
+            <v-btn flat icon large class="btn-px-0 ma-0" slot="activator">
+                <v-icon>mdi-settings</v-icon>
+            </v-btn>
+            <v-layout column class="px-2 pt-3 pb-0">
+
+                <v-tooltip right transition="false" open-delay="0" close-delay="0" color="accent" class="ma-0">
+                    <v-btn fab :color="syncing ? 'success' : 'error'" class="ma-0 mb-3 elevation-4" v-on:click="syncing = !syncing"
+                        slot="activator">
+                        <v-icon medium>{{ syncing ? 'mdi-sync' : 'mdi-sync-off' }}</v-icon>
+                    </v-btn>
+                    <span>Realtime table updates</span>
+                </v-tooltip>
+
+            </v-layout>
+        </v-menu>
+
+
+
+        <v-spacer />
+
+
+
+
+
+        <v-tooltip top transition="false" open-delay="0" close-delay="0" color="accent" class="mx-0">
+            <v-btn flat class="btn-px-0 w-initial px-2 mx-0" slot="activator" v-on:click="togglePicker">
+                <v-icon left class="mr-2">mdi-plus-circle-outline</v-icon>
+                Filter
+            </v-btn>
+            <span>Add Screener Filter</span>
+        </v-tooltip>
+
+
+
+    </v-toolbar>
+
+
+
+
+
+</div>
+

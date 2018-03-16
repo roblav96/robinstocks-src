@@ -1,0 +1,48 @@
+<!--  -->
+
+<div class="route-wrapper pensions-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+        <v-btn large outline class="ma-0 mr-4" v-on:click="stdev = !stdev">
+            <v-icon left medium>{{ stdev ? 'check_box' : 'check_box_outline_blank' }}</v-icon>
+            <span class="mr-2 t-18">Show Stdev</span>
+        </v-btn>
+    </v-toolbar>
+
+    <main>
+        <v-container fluid class="pa-4">
+            <v-card>
+
+                <div class="table__overflow">
+                    <table class="datatable table table--left table--narrow">
+                        <thead>
+                            <tr>
+                                <th v-ripple class="clickable px-2" v-for="header in headers" v-on:click="sortClick(header)"
+                                    :class="[v_column_color(header.key)]">
+                                    {{ header.text }}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in items">
+                                <td class="px-2 body-1" v-for="(header, ii) in headers">
+                                    <template v-if="header.key == 'symbol'">
+                                        <symbol-chip class="secondary" :symbol="item.symbol" :small="true" :long="true" :clickthru="true"></symbol-chip>
+                                    </template>
+                                    <template v-else>{{ item[header.key] }}</template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </v-card>
+        </v-container>
+    </main>
+
+</div>
+

@@ -1,0 +1,90 @@
+/**/
+
+.mmenu-comp,
+aside.mmenu-comp {
+    position: absolute;
+    max-height: initial;
+    margin-top: 0px;
+    height: 100vh !important;
+    transition: initial;
+    transform: initial !important;
+}
+
+aside.mmenu-comp ul.mmenu-create-order a.list__tile {
+    height: 64px;
+}
+
+aside.mmenu-comp ul.list p {
+    position: absolute;
+    left: 0px;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+aside.mmenu-comp ul.list .list__tile--active p {
+    font-size: 12px;
+    font-weight: bold;
+    color: #21CE99;
+}
+
+aside.mmenu-comp ul.list li.dev-list-tile-hover a.list__tile {
+    background: rgba(0, 0, 0, .12);
+}
+
+aside.mmenu-comp ul.list i {
+    margin-right: 2px;
+    margin-bottom: 16px;
+}
+
+.mmenu-rh-icon {
+    filter: invert(66%) grayscale(100%);
+    border-radius: initial !important;
+    width: 20px !important;
+    height: initial !important;
+    margin-bottom: 16px !important;
+}
+
+.mmenu-rh-icon.mmenu-rh-icon--active {
+    filter: invert(0%) grayscale(0%) !important;
+    width: 22px !important;
+}
+
+.mmenu-ib-logo {
+    filter: invert(50%) grayscale(100%);
+    border-radius: initial !important;
+    width: 16px !important;
+    height: initial !important;
+    margin-bottom: 22px !important;
+}
+
+.mmenu-ib-logo.mmenu-ib-logo--active {
+    filter: invert(0%) grayscale(0%) !important;
+    width: 18px !important;
+}
+
+aside.mmenu-comp ul.list .list__tile--active p.mmenu-ib-label {
+    color: #ff001b !important;
+    bottom: 8px;
+}
+
+
+/*ff001b*/
+
+aside.mmenu-comp ul.list .list__tile--active i {
+    font-size: 36px;
+}
+
+aside.mmenu-comp div.list__tile,
+aside.mmenu-comp a.list__tile,
+aside.mmenu-comp a.list__tile.list__tile--avatar {
+    height: 5rem;
+}
+
+
+/**/
+

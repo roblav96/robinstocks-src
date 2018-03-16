@@ -1,0 +1,95 @@
+<!--  -->
+
+<v-navigation-drawer mini-variant permanent class="mmenu-comp py-0 flex-column">
+    <v-layout column class="h-100">
+
+        <p class="body-2 t-bold t-center t-lh0 my-2 secondary--text">
+            <pre>{{ clock }}</pre>
+        </p>
+        <v-divider class="flex-initial" />
+
+        <!-- <v-list class="mmenu-create-order py-0">
+            <v-list-tile ripple class="" v-on:click.stop="$store.state.ordersheet.show = true">
+                <v-list-tile-action>
+                    <v-icon medium class="">mdi-tag-plus</v-icon>
+                </v-list-tile-action>
+                <p class="">Create Order</p>
+            </v-list-tile>
+        </v-list> -->
+        <v-layout column align-center class="flex-initial my-2">
+            <v-btn small color="success" style="width: 64px !important;" class="btn-px-0 w-initial ma-0 mb-2 px-0"
+                v-on:click="ib_createOrder('buy')">
+                Buy
+            </v-btn>
+            <v-btn small color="error" style="width: 64px !important;" class="btn-px-0 w-initial ma-0 px-0"
+                v-on:click="ib_createOrder('sell')">
+                Sell
+            </v-btn>
+        </v-layout>
+        <v-divider class="flex-initial" />
+
+        <!-- <v-list id="mmenu_scroll" class="py-0 flex-1 scroll-y scrollbar-mini pb-5" v-scroll="onScrollY"> -->
+        <v-list id="mmenu_scroll" class="py-0 flex-1 scroll-y scrollbar-mini scroll-x-hidden pb-4">
+            <v-list-tile ripple v-on:click.stop="pickSymbol">
+                <v-list-tile-action>
+                    <v-icon medium class="clickable t-bold" style="font-size: 30px;">mdi-magnify</v-icon>
+                </v-list-tile-action>
+                <p>Companies</p>
+            </v-list-tile>
+            <v-divider class="flex-initial" />
+
+            <!-- <v-list-tile avatar ripple :to="{ name: rhauthed == true ? 'rh' : 'login' }">
+                <v-list-tile-avatar>
+                    <img class="mmenu-rh-icon" :class="{ 'mmenu-rh-icon--active': ['login','rh'].indexOf($route.name) >= 0 }"
+                        src="/assets/rh-icon.png" />
+                </v-list-tile-avatar>
+                <p>Robinhood</p>
+            </v-list-tile> -->
+
+            <v-list-tile avatar ripple :to="{ name: 'ibkr' }">
+                <v-list-tile-avatar>
+                    <img class="mmenu-ib-logo mb-1" :class="{ 'mmenu-ib-logo--active': $route.name == 'ibkr' }"
+                        src="/assets/ib-logo.png" />
+                </v-list-tile-avatar>
+                <!-- <p class="mmenu-ib-label">IBKR</p> -->
+                <p class="mmenu-ib-label">Broker</p>
+            </v-list-tile>
+            <v-divider class="flex-initial" />
+
+            <template v-for="route in routes">
+                <v-list-tile ripple :to="{ name: route.name }">
+                    <v-list-tile-action>
+                        <v-icon medium :class="{ 'primary--text': route.name == $route.name }">{{ route.icon }}</v-icon>
+                    </v-list-tile-action>
+                    <p>{{ route.dname }}</p>
+                </v-list-tile>
+                <v-divider class="flex-initial" />
+            </template>
+
+            <v-menu absolute :nudge-top="175" :nudge-left="32" open-delay="0" transition="slide-x-transition"
+                v-model="showdevmenu">
+                <!-- <v-list-tile ripple class="dev-list-tile" :class="{ 'list__tile--active': categoryActive('developer'), 'dev-list-tile-hover': showdevmenu }" -->
+                <!-- <v-list-tile ripple class="dev-list-tile" :class="{ 'dev-list-tile-hover': showdevmenu }" -->
+                <v-list-tile ripple v-on:click="" slot="activator">
+                    <v-list-tile-action>
+                        <!-- <v-icon medium :class="{ 'primary--text': categoryActive('developer') }">mdi-heart-pulse</v-icon> -->
+                        <v-icon medium>mdi-heart-pulse</v-icon>
+                    </v-list-tile-action>
+                    <p>Server Health</p>
+                </v-list-tile>
+                <v-list>
+                    <v-list-tile ripple :to="{ name: route.name }" v-for="route in devs">
+                        <v-list-tile-action>
+                            <v-icon medium :class="{ 'primary--text': route.name == $route.name }">{{ route.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <p>{{ route.dname }}</p>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <v-divider class="flex-initial" />
+
+        </v-list>
+
+    </v-layout>
+</v-navigation-drawer>
+

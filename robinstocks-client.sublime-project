@@ -1,0 +1,24 @@
+{
+	"folders": [{
+		"path": ".",
+		"folder_exclude_patterns": [
+			"shared",
+			"server",
+			"client/.awcache",
+			"client/.happypack",
+			"client/dev",
+			"client/assets",
+			"client/dist",
+			"client/node_modules"
+		],
+		"file_exclude_patterns": [
+			"*.gitignore",
+			"*.sublime*",
+			"client/webpack.config.js",
+			"client/vendor.webpack.config.js",
+			"client/*.ico",
+			"client/*.log"
+		]
+	}]
+}
+

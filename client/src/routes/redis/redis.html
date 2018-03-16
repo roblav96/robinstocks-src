@@ -1,0 +1,145 @@
+<!--  -->
+
+<div class="route-wrapper redis-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <main>
+        <v-container fluid class="pa-4">
+
+
+
+            <v-card class="mb-4">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">Diagnostics</span>&nbsp;
+                        <span class="t-300">db0</span>
+                    </p>
+                </v-card-title>
+                <v-card-text>
+                    <v-layout row wrap>
+                        <v-flex xs4 class="mb-4" v-for="(v, k, i) in info">
+                            <p class="subheading t-300">{{ v_key(k) }}</p>
+                            <p class="subheading t-500">{{ v_value(v, k) }}</p>
+                        </v-flex>
+                    </v-layout>
+                </v-card-text>
+            </v-card>
+
+
+
+            <v-card class="mb-4">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">Latency</span>&nbsp;
+                        <span class="t-300">Doctor</span>
+                    </p>
+                </v-card-title>
+                <v-card-text>
+                    <p class="subheading">{{ latdoctor }}</p>
+                </v-card-text>
+            </v-card>
+
+
+
+            <v-card class="mb-4">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">Latency</span>&nbsp;
+                        <span class="t-300">Latest</span>
+                    </p>
+                </v-card-title>
+                <v-list three-line subheader class="pb-0">
+                    <v-list-tile v-for="v in latency">
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ capitalize(v[0]) }}</v-list-tile-title>
+                            <v-list-tile-sub-title>{{ format_stamp(v[1] * 1000) }}</v-list-tile-sub-title>
+                            <v-list-tile-sub-title>Latest {{ v[2] }} ms - Highest {{ v[3] }} ms</v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-card>
+
+
+
+            <v-card class="mb-4">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">Memory</span>&nbsp;
+                        <span class="t-300">Doctor</span>
+                    </p>
+                </v-card-title>
+                <v-card-text>
+                    <p class="subheading">{{ memdoctor }}</p>
+                </v-card-text>
+            </v-card>
+
+
+
+            <v-card class="mb-4">
+                <v-card-title class="primary">
+                    <p class="headline white--text">
+                        <span class="t-bold">Slow Log</span>
+                    </p>
+                </v-card-title>
+                <div class="table__overflow">
+                    <table class="datatable table shadow-none table--narrow table--left">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Index
+                                </th>
+                                <th>
+                                    Client Name
+                                </th>
+                                <th>
+                                    IP Address
+                                </th>
+                                <th>
+                                    Stamp
+                                </th>
+                                <th>
+                                    Duration
+                                </th>
+                                <th>
+                                    Command
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="v in slowlog">
+                                <td>
+                                    <span class="body-1">{{ v[0] }}</span>
+                                </td>
+                                <td>
+                                    <span class="body-1">{{ v[5] }}</span>
+                                </td>
+                                <td>
+                                    <span class="body-1">{{ v[4] }}</span>
+                                </td>
+                                <td>
+                                    <span class="body-1">{{ format_stamp(v[1] * 1000) }}</span>
+                                </td>
+                                <td>
+                                    <span class="body-1">{{ format_number(v[2] / 1000, 1) }} ms</span>
+                                </td>
+                                <td>
+                                    <span class="body-1">{{ v[3].join(' ') }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </v-card>
+
+
+
+        </v-container>
+    </main>
+
+</div>
+

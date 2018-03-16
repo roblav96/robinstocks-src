@@ -1,0 +1,44 @@
+<!--  -->
+
+<div class="route-wrapper login-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <main>
+        <v-container class="pa-4 fluid">
+            <v-layout column align-center>
+                <v-card class="pa-4 mt-4" style="width: 25rem;">
+                    <v-layout row align-center class="mb-2">
+                        <img class="login-rh-banner" src="/assets/rh-banner.png">
+                        <v-spacer />
+                        <v-btn large icon class="ma-0" :href="'https://robinhood.com/signup/'" target="_blank">
+                            <v-icon medium>person_add</v-icon>
+                        </v-btn>
+                    </v-layout>
+
+                    <v-layout column>
+                        <form v-on:submit.prevent="login()">
+                            <v-text-field class="mb-2" ref="uname_input" v-model="uname" label="Username" prepend-icon="person"
+                                hide-details v-bind:disabled="ismfa"></v-text-field>
+                            <v-text-field class="mb-2" ref="pass_input" v-model="pass" label="Password" prepend-icon="lock"
+                                type="password" hide-details v-bind:disabled="ismfa"></v-text-field>
+                            <v-text-field class="mb-2" ref="mfa_input" v-show="ismfa" v-model="mfa" label="Multi-Factor Authentication"
+                                prepend-icon="phonelink_lock" hide-details></v-text-field>
+
+                            <v-btn type="submit" block color="primary" v-bind:disabled="isDisabled" class="ma-0 mt-4"
+                                v-on:click="login()" v-bind:loading="busy">
+                                Login
+                            </v-btn>
+                        </form>
+                    </v-layout>
+                </v-card>
+            </v-layout>
+        </v-container>
+    </main>
+
+</div>
+

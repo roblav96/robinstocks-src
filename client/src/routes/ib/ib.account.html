@@ -1,0 +1,31 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-text-field class="mb-4" label="Search..." solo spellcheck="false" v-model="search"
+            prepend-icon="search" clearable hide-details></v-text-field>
+
+        <v-card class="table__overflow table--left table--narrow">
+            <table class="datatable table">
+                <tbody>
+                    <tr class="no-hover" v-for="(v, k, i) in v_account">
+                        <td class="" width="1">
+                            <p class="body-1">{{ parse_key(k) }}</p>
+                        </td>
+                        <td class="" width="1">
+                            <p class="body-2">{{ parse_value(v, k) }}</p>
+                        </td>
+                        <td class="body-1 t-300">
+                            <template v-for="(desc, ii) in v_desc(k)">
+                                <p>- {{ desc }}</p>
+                            </template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </v-card>
+
+    </v-container>
+</main>
+

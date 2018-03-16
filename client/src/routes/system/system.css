@@ -1,0 +1,80 @@
+/**/
+
+div.system-circle {
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 24px;
+}
+
+div.system-circle > div > div {
+    text-align: center;
+}
+
+div.system-circle > div > div > p {
+    line-height: 1;
+    white-space: nowrap;
+}
+
+div.system-circle > div > div > p:first-child {
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+div.system-circle > div > div > p:last-child {
+    font-weight: bold;
+}
+
+
+/**/
+
+table.system-range-table {
+    width: 100%;
+}
+
+table.system-range-table > tr > th {
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 500;
+    padding-right: 24px;
+    padding-bottom: 8px;
+}
+
+table.system-range-table.table--narrow > tr > th {
+    padding-bottom: 4px;
+}
+
+table.system-range-table.header--hide > tr > th {
+    padding-bottom: 0px;
+}
+
+table.system-range-table > tr > td > div.progress-linear {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+table.system-range-table > tr > td {
+    white-space: nowrap;
+    padding-right: 24px;
+    padding-bottom: 8px;
+}
+
+table.system-range-table > tr > td > p {
+    white-space: nowrap;
+}
+
+table.system-range-table.table--narrow > tr > td {
+    padding-bottom: 4px;
+}
+
+table.system-range-table > tr > th:last-child,
+table.system-range-table > tr > td:last-child {
+    padding-right: 0px;
+}
+
+table.system-range-table > tr:last-child > td {
+    padding-bottom: 0px;
+}
+
+
+/**/
+

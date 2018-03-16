@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"lib": ["dom", "es2015"],
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"removeComments": true,
+		"pretty": true,
+		"sourceMap": true,
+		"outDir": "./dist"
+	},
+	"include": [
+		"../types",
+		"types",
+		"src"
+	],
+	"exclude": [
+		"assets",
+		"dev",
+		"dist",
+		"node_modules"
+	]
+}
+

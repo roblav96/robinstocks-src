@@ -1,0 +1,54 @@
+<!--  -->
+
+<div class="route-wrapper ib-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+
+        <v-spacer />
+
+        <v-toolbar dark flat color="secondary" class="mx-0 flex-0 t-nowrap px-2">
+            <template v-if="has_account">
+                <div class="tbar-item">
+                    <p class="body-1">Net Value</p>
+                    <p class="title">${{ format_price(account.NetLiquidation, 2) }}</p>
+                </div>
+                <div class="tbar-item">
+                    <p class="body-1">Available Funds</p>
+                    <p class="title">${{ format_price(account.AvailableFunds, 2) }}</p>
+                </div>
+                <div class="tbar-item">
+                    <p class="body-1">Realized P/L</p>
+                    <p class="title" :class="v_pm_color(account.RealizedPnL, 0, true)">
+                        {{ plus_minus(account.RealizedPnL, 2, true, false) }}
+                    </p>
+                </div>
+            </template>
+
+            <template v-if="$store.state.ib.positions.length > 0">
+                <div class="tbar-item">
+                    <p class="body-1">Unrealized P/L</p>
+                    <p class="title" :class="v_pm_color(v_total_unrealizedPNL, 0, true)">
+                        {{ plus_minus(v_total_unrealizedPNL, 2, true, false) }}
+                        <span class="t-bold">({{ plus_minus(v_total_unrealizedPNL_percent, 2) }}%)</span>
+                    </p>
+                </div>
+            </template>
+        </v-toolbar>
+
+    </v-toolbar>
+
+    <transition enter-active-class="fadeIn" leave-active-class="hidden">
+        <component :is="tabs[index].id" class="animated animated-fast" />
+    </transition>
+
+    <v-bottom-nav class="secondary route-bottom-nav" :active.sync="index">
+        <v-btn flat class="white--text" v-for="item in tabs">
+            <span>{{ item.dname }}</span>
+            <v-icon>{{ item.icon }}</v-icon>
+        </v-btn>
+    </v-bottom-nav>
+
+</div>
+

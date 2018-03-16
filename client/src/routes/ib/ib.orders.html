@@ -1,0 +1,67 @@
+<!--  -->
+
+<main>
+    <v-container fluid class="pa-4">
+
+        <v-text-field ref="ib_orders_search" class="mb-4" label="Search..." solo spellcheck="false"
+            v-model="search" prepend-icon="search"></v-text-field>
+
+        <v-card>
+            <transition enter-active-class="fadeIn" leave-active-class="fadeOut">
+                <v-progress-linear v-show="!parent.ready" class="will-animate animated my-0" style="position: absolute;"
+                    height="4" indeterminate>
+                </v-progress-linear>
+            </transition>
+
+            <v-data-table v-show="parent.ready" class="table--left table--narrow table--narrowest animated animated-fast fadeIn"
+                :headers="headers" :items="v_orders" :pagination.sync="pagination" must-sort>
+                <template slot="items" scope="props">
+                    <tr v-on:click="debugItem(props.item)">
+                        <td class="pr-2">
+                            <symbol-chip :symbol="props.item.symbol" :small="true" />
+                        </td>
+                        <td class="body-1">{{ props.item.orderId }}</td>
+                        <td class="body-1" :class="[ props.item.action == 'BUY' ? 'success--text' : 'error--text' ]">
+                            {{ v_action(props.item.action) }}
+                        </td>
+                        <td class="body-1">{{ format_number(props.item.totalQuantity, 0) }}</td>
+                        <td class="body-1">{{ v_orderType(props.item.orderType) }}</td>
+                        <td class="body-1">{{ props.item.tif }}</td>
+                        <td class="body-1">
+                            <span v-show="props.item.auxPrice">${{ format_number(props.item.auxPrice) }}</span>
+                        </td>
+                        <td class="body-1">
+                            <span v-show="props.item.lmtPrice">${{ format_number(props.item.lmtPrice) }}</span>
+                        </td>
+                        <td class="body-1 t-nowrap pr-3">
+                            <v-progress-linear :color="v_color(props.item.status)" :value="v_filled(props.item.filled, props.item.totalQuantity)"
+                                height="4" class="ma-0 animated-none" />
+                            <span :class="[v_status_chip(props.item.status)]">{{ v_ibstatus(props.item.status) }}</span>
+                            <span v-show="props.item.filledAt" class="caption t-300">{{ from_now(props.item.filledAt) }}</span>
+                            <span v-show="props.item.cancelledAt" class="caption t-300">{{ from_now(props.item.cancelledAt) }}</span>
+                            <span v-show="props.item.avgFillPrice" class="body-1" style="float: right;">${{ format_number(props.item.avgFillPrice) }}</span>
+                        </td>
+                        <td class="body-1">
+                            ${{ format_number(ib_lastPrice(props.item.symbol)) }}
+                            <span class="caption t-300">{{ from_now(ib_lastStamp(props.item.symbol)) }}</span>
+                        </td>
+                        <td class="body-1 t-nowrap">{{ from_now(props.item.createdAt) }}</td>
+                        <td class="body-1 t-nowrap">{{ from_now(props.item.stamp) }}</td>
+                        <td class="">
+                            <v-btn v-show="v_cancellable(props.item.status)" small flat icon color="warning"
+                                class="ma-0 mr-2" v-on:click.stop="ib_modifyOrder(props.item.orderId)">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-btn v-show="v_cancellable(props.item.status)" small flat icon color="error" class="ma-0"
+                                v-on:click.stop="ib_cancelOrder(props.item.orderId)">
+                                <v-icon class="t-bold">mdi-cancel</v-icon>
+                            </v-btn>
+                        </td>
+                    </tr>
+                </template>
+            </v-data-table>
+        </v-card>
+
+    </v-container>
+</main>
+

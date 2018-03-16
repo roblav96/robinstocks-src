@@ -1,0 +1,723 @@
+/**/
+
+#root {
+    height: 100vh;
+}
+
+.route-wrapper {
+    height: 100vh;
+    display: -webkit-box;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.route-wrapper > nav.toolbar {
+    margin-left: 80px;
+    width: calc(100vw - 80px);
+    z-index: 1;
+}
+
+nav.toolbar > div.toolbar__content {
+    min-height: 64px;
+}
+
+nav.toolbar.toolbar--dense > div.toolbar__content {
+    min-height: 48px;
+}
+
+.route-wrapper > nav.toolbar .toolbar__title {
+    font-weight: bold;
+}
+
+.route-toolbar-icon {
+    margin-left: 24px !important;
+    margin-right: 4px !important;
+}
+
+main {
+    margin-left: 80px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.toolbar-bg {
+    position: absolute;
+}
+
+.tab-toolbar {
+    z-index: 1;
+}
+
+.route-wrapper .bottom-nav.route-bottom-nav {
+    width: calc(100vw - 80px);
+    margin-left: 80px;
+    z-index: initial;
+    bottom: initial;
+    transform: initial;
+    position: initial;
+}
+
+
+/*.theme--light .clickable:hover {
+    background-color: #EEEEEE !important;
+}
+
+.theme--dark .clickable:hover {
+    background-color: #616161 !important;
+}*/
+
+.no-hover:hover > div.btn__content:before {
+    background: initial !important;
+    background-color: initial !important;
+}
+
+
+/**/
+
+.mt-05 {
+    margin-top: 2px !important;
+}
+
+.mb-05 {
+    margin-bottom: 2px !important;
+}
+
+.pt-05 {
+    padding-top: 2px !important;
+}
+
+.pb-05 {
+    padding-bottom: 2px !important;
+}
+
+.theme--light .btn.btn--disabled,
+.theme--light .btn.btn--disabled .icon {
+    color: inherit !important;
+}
+
+button.animated-initial > div.btn__content {
+    transition: initial;
+}
+
+.h-initial > .list__tile {
+    height: initial;
+}
+
+.h-initial > div.toolbar__content {
+    height: initial !important;
+}
+
+.list__tile:focus {
+    background: #EEEEEE;
+}
+
+ul.expansion-header-pa-0 div.expansion-panel__header {
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.btn.btn-px-0 div.btn__content {
+    padding: initial;
+}
+
+.btn.btn-bold {
+    border-width: 2px;
+}
+
+table.table thead th:focus {
+    outline: 0;
+}
+
+
+/*table.table tbody td div.btn__content {
+    justify-content: initial;
+}*/
+
+table.table tbody td.body-2 {
+    font-weight: 500;
+}
+
+table.datatable tr > .column--success {
+    background-color: #e0faf2;
+    /*border-bottom: 2px solid #57e4b9;*/
+}
+
+table.datatable tr > .column--error {
+    background-color: #fde3df;
+    /*border-bottom: 2px solid #f69381;*/
+}
+
+table.datatable .move-bulls-icon {
+    position: absolute;
+    top: 16px;
+    opacity: 0;
+    transition-property: opacity;
+}
+
+table.datatable.table--narrow .move-bulls-icon {
+    top: 5px;
+}
+
+table.datatable .move-bulls-icon.key-active {
+    opacity: 1;
+}
+
+table.datatable .move-bulls-icon.header-hover:not(.key-active) {
+    opacity: 0.5;
+}
+
+div.input-group--single-line > label {
+    top: initial;
+}
+
+i.icon.t-bold::before {
+    font-weight: bold !important;
+}
+
+span.chip {
+    box-shadow: none !important;
+}
+
+span.chip.chip--small {
+    /*height: initial;*/
+    line-height: 0;
+}
+
+i.material-icons.icon {
+    cursor: default;
+    user-select: none;
+}
+
+a i.material-icons.icon,
+button i.material-icons.icon,
+div.expansion-panel__header i.material-icons.icon {
+    cursor: inherit;
+}
+
+div.layout {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+div.layout .flex {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+div.layout .flex.flex-padding {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: 24px;
+}
+
+
+/**/
+
+div.tbar-item {
+    margin-right: 24px;
+    padding-bottom: 4px;
+}
+
+div.tbar-item > p:first-child {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.66);
+    margin-bottom: 2px;
+}
+
+div.tbar-item > p:last-child {
+    text-align: center;
+    font-weight: 400;
+}
+
+div.tbar-item.tbar-dense {
+    padding-bottom: 2px;
+}
+
+div.tbar-item.tbar-dense > p:first-child {
+    font-size: 12px !important;
+}
+
+div.tbar-item.tbar-dense > p:last-child {
+    font-size: 18px !important;
+}
+
+
+/**/
+
+.navigation-drawer--mini-variant .divider {
+    display: inherit !important;
+}
+
+div.overlay.overlay--active:before {
+    opacity: 0.1;
+}
+
+.input-group.input-medium input {
+    font-size: 18px;
+}
+
+.input-group.input-large input {
+    font-size: 20px;
+}
+
+div.speed-dial.w-inherit > div.speed-dial__list {
+    width: inherit;
+}
+
+div.speed-dial.h-inherit > div.speed-dial__list {
+    height: inherit;
+}
+
+.tabs--scrollable--content > .tabs__items {
+    border: none;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.bottom-nav .btn--active span {
+    font-weight: bold;
+}
+
+
+/**/
+
+table.table tfoot tr:not(:last-child):not(:only-child) td {
+    padding: initial;
+}
+
+div.table__overflow tfoot th,
+table.table tfoot th {
+    z-index: 99;
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: 500;
+    font-size: 12px;
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    white-space: nowrap;
+    user-select: none;
+}
+
+div.table__overflow.table--narrow tr,
+table.table.table--narrow tr {
+    height: initial;
+    white-space: nowrap;
+}
+
+div.table__overflow.table--narrow thead th,
+div.table__overflow.table--narrow tfoot th,
+div.table__overflow.table--narrow tfoot td,
+div.table__overflow.table--narrow tbody td,
+table.table.table--narrow thead th,
+table.table.table--narrow tfoot th,
+table.table.table--narrow tfoot td,
+table.table.table--narrow tbody td {
+    height: initial;
+    padding: 8px 16px;
+}
+
+div.table__overflow.table--narrow tr > th:first-child,
+div.table__overflow.table--narrow tr > td:first-child,
+table.table.table--narrow tr > th:first-child,
+table.table.table--narrow tr > td:first-child {
+    padding-left: 24px;
+}
+
+div.table__overflow.table--narrow tr > th:last-child,
+div.table__overflow.table--narrow tr > td:last-child,
+table.table.table--narrow tr > th:last-child,
+table.table.table--narrow tr > td:last-child {
+    padding-right: 24px;
+}
+
+div.table__overflow.table--narrow.table--narrower thead th,
+div.table__overflow.table--narrow.table--narrower tfoot th,
+div.table__overflow.table--narrow.table--narrower tfoot td,
+div.table__overflow.table--narrow.table--narrower tbody td,
+table.table.table--narrow.table--narrower thead th,
+table.table.table--narrow.table--narrower tfoot th,
+table.table.table--narrow.table--narrower tfoot td,
+table.table.table--narrow.table--narrower tbody td {
+    padding: 8px 6px;
+}
+
+div.table__overflow.table--narrow.table--narrower tr > th:first-child,
+div.table__overflow.table--narrow.table--narrower tr > td:first-child,
+table.table.table--narrow.table--narrower tr > th:first-child,
+table.table.table--narrow.table--narrower tr > td:first-child {
+    padding-left: 16px;
+}
+
+div.table__overflow.table--narrow.table--narrower tr > th:last-child,
+div.table__overflow.table--narrow.table--narrower tr > td:last-child,
+table.table.table--narrow.table--narrower tr > th:last-child,
+table.table.table--narrow.table--narrower tr > td:last-child {
+    padding-right: 16px;
+}
+
+div.table__overflow.table--narrow.table--narrowest thead th,
+div.table__overflow.table--narrow.table--narrowest tfoot th,
+div.table__overflow.table--narrow.table--narrowest tfoot td,
+div.table__overflow.table--narrow.table--narrowest tbody td,
+table.table.table--narrow.table--narrowest thead th,
+table.table.table--narrow.table--narrowest tfoot th,
+table.table.table--narrow.table--narrowest tfoot td,
+table.table.table--narrow.table--narrowest tbody td {
+    padding: 4px 6px;
+}
+
+div.table__overflow.table--narrow.table--narrowest tr > th:first-child,
+div.table__overflow.table--narrow.table--narrowest tr > td:first-child,
+table.table.table--narrow.table--narrowest tr > th:first-child,
+table.table.table--narrow.table--narrowest tr > td:first-child {
+    padding-left: 16px;
+}
+
+div.table__overflow.table--narrow.table--narrowest tr > th:last-child,
+div.table__overflow.table--narrow.table--narrowest tr > td:last-child,
+table.table.table--narrow.table--narrowest tr > th:last-child,
+table.table.table--narrow.table--narrowest tr > td:last-child {
+    padding-right: 16px;
+}
+
+div.table__overflow.table--left th,
+div.table__overflow.table--left td,
+table.table.table--left th,
+table.table.table--left td {
+    text-align: left;
+}
+
+div.table__overflow.table--center th,
+div.table__overflow.table--center td,
+table.table.table--center th,
+table.table.table--center td {
+    text-align: center;
+}
+
+div.table__overflow.table--right th,
+div.table__overflow.table--right td,
+table.table.table--right th,
+table.table.table--right td {
+    text-align: right;
+}
+
+table.table tr.tr--active {
+    background: #f5f5f5;
+}
+
+.theme--dark table.table thead th,
+.theme--dark table.table tfoot th,
+.theme--dark table.table tfoot td,
+table.table thead.theme--dark th,
+table.table tfoot.theme--dark th {
+    color: white;
+}
+
+
+/**/
+
+.title.subtitle {
+    font-size: 18px !important;
+}
+
+.success--text--dbg {
+    color: #69F0AE;
+}
+
+.error--text--dbg {
+    color: #FF5252;
+}
+
+.t-success {
+    color: #00C853;
+}
+
+.t-dbg-success {
+    color: #69F0AE;
+}
+
+.t-dbg-success-light {
+    color: #80F2BB;
+}
+
+.t-error {
+    color: #D50000;
+}
+
+.t-dbg-error {
+    color: #FF5252;
+}
+
+.t-dbg-error-light {
+    color: #FF6C6C;
+}
+
+.theme--light {
+    color: rgba(0, 0, 0, 0.87);
+    /*background-color: #F5F5F7;*/
+}
+
+.theme--light.text,
+.theme--light .text {
+    color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.theme--light.text--light,
+.theme--light .text--light {
+    color: rgba(0, 0, 0, 0.54) !important;
+}
+
+.theme--light.text--lighter,
+.theme--light .text--lighter {
+    color: rgba(0, 0, 0, 0.38) !important;
+}
+
+.theme--light.text--lightest,
+.theme--light .text--lightest {
+    color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.theme--light .bg-dim {
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.theme--light .divider--light {
+    background-color: rgba(0, 0, 0, 0.54);
+}
+
+.theme--light .divider--lighter {
+    background-color: rgba(0, 0, 0, 0.38);
+}
+
+.theme--light table.table tbody tr:focus {
+    background: #EEEEEE;
+}
+
+
+/**/
+
+.theme--dark {
+    color: white;
+    /*background-color: #303030;*/
+}
+
+.theme--dark.text,
+.theme--dark .text {
+    color: white !important;
+}
+
+.theme--dark.text--light,
+.theme--dark .text--light {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.theme--dark.text--lighter,
+.theme--dark .text--lighter {
+    color: rgba(255, 255, 255, 0.66) !important;
+}
+
+.theme--dark.text--lightest,
+.theme--dark .text--lightest {
+    color: rgba(255, 255, 255, 0.33) !important;
+}
+
+.theme--dark.bg-dim,
+.theme--dark .bg-dim {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.theme--dark.divider--light,
+.theme--dark .divider--light {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.theme--dark.divider--lighter,
+.theme--dark .divider--lighter {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+/**/
+
+.scroll-x.scrollbar-mini p {
+    white-space: nowrap;
+}
+
+.scrollbar-mini::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}
+
+.scroll-x.scrollbar-mini::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scroll-y.scrollbar-mini::-webkit-scrollbar {
+    width: 4px;
+}
+
+.theme--light .scrollbar-mini::-webkit-scrollbar-thumb,
+.theme--light .scrollbar-mini::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.theme--dark .scrollbar-mini::-webkit-scrollbar-thumb,
+.theme--dark .scrollbar-mini::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.scrollbar-small::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+}
+
+.scroll-x.scrollbar-small::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-y.scrollbar-small::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+/**/
+
+div.echart-tips {
+    font-size: 11px !important;
+    /*font-size: 8pt !important;*/
+    font-family: monospace;
+    line-height: 1.5;
+}
+
+div.echart-tips table {
+    width: 100%;
+    line-height: 1;
+    border-collapse: collapse;
+}
+
+div.echart-tips table td {
+    padding-bottom: 4px;
+}
+
+div.echart-tips table td:first-child {
+    padding-right: 2px;
+}
+
+div.echart-tips table td:last-child > br {
+    line-height: 1.3;
+}
+
+div.echart-tips table td:last-child > br:last-child {
+    /*line-height: 1;*/
+}
+
+div.echart-tips table tr.axis-hr td {
+    border-top: 1px solid #707071;
+    padding-top: 4px;
+}
+
+div.echart-tips hr {
+    border: none;
+    border-bottom: 1px solid #707071;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+
+/*[_echarts_instance_] > div {
+    cursor: crosshair !important;
+}*/
+
+
+/*canvas.chartjs-render-monitor,
+[_echarts_instance_] > div {
+    cursor: crosshair !important;
+}*/
+
+
+/*.chart-tips {
+    margin: 0rem 5rem;
+    background-color: #424242;
+    border-radius: 5px;
+    padding-top: 6px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 8px;
+}
+
+.chart-tips p.tip-line {
+    font-family: monospace;
+    font-size: 9pt;
+    letter-spacing: 0.5px;
+    line-height: normal;
+    vertical-align: middle;
+    height: 16px;
+    margin-bottom: 2px;
+}
+
+.chart-tips p.tip-line .is-colored {
+    opacity: 1 !important;
+}
+
+.chart-tips p.tip-line i.tip-icon {
+    opacity: 0.5;
+    font-size: 10pt;
+    line-height: normal;
+    margin-bottom: 1pt;
+    vertical-align: middle;
+}
+
+.chart-tips p.tip-line span.tip-label {
+    opacity: 0.5;
+    font-size: 10pt;
+    font-weight: bold;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.chart-tips p.tip-line span.tip-value {
+    font-weight: bold;
+    margin-left: 3px;
+}
+
+.chart-tips p.tip-line span.tip-desc {
+    opacity: 1;
+    font-weight: 300;
+}*/
+
+
+/**/
+
+
+/*[data-tooltip]:before {
+    font-size: 10pt;
+}
+
+[data-tooltip]:hover:before {
+    opacity: 1;
+}
+
+[data-tooltip][data-tooltip-location='center']:before {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+[data-tooltip][data-tooltip-location='topcenter']:before {
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 0px);
+}
+
+[data-tooltip][data-tooltip-location='bottomcenter']:before {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+}*/
+
+
+/**/
+

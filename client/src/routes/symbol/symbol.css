@@ -1,0 +1,70 @@
+/**/
+
+.symbol-route .bottom-nav {
+    width: calc(100vw - 80px);
+    margin-left: 80px;
+    z-index: initial;
+    bottom: initial;
+    transform: initial;
+    position: initial;
+    justify-content: initial;
+    width: initial;
+    box-shadow: none;
+}
+
+.symbol-route .bottom-nav button {
+    width: initial;
+}
+
+.symbol-route .bottom-nav button div.btn__content {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+/*nav.bottom-tbar {
+    max-height: 56px !important;
+}
+
+nav.bottom-tbar > div.toolbar__content {
+    max-height: 56px !important;
+}*/
+
+.symbol-route .symbol-logo {
+    border-radius: 2px;
+    background-color: white;
+    width: 46px;
+    height: 46px;
+}
+
+.symbol-route .symbol-logo img {
+    border-radius: 2px;
+    min-width: 46px;
+    max-width: 46px;
+    max-height: 46px;
+}
+
+
+/*.symbol-route .bottom-nav {
+    width: initial;
+    height: 64px;
+    justify-content: initial;
+    transform: initial;
+    position: initial;
+}
+
+.symbol-route .bottom-nav button {
+    width: 8rem;
+}*/
+
+
+/*.symbol-route .bottom-nav .btn--active {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}*/
+
+.symbol-route .scroll-x.scrollbar-mini > div.layout > div:last-child {
+    margin-right: 1px !important;
+}
+
+
+/**/
+

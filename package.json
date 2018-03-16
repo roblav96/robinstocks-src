@@ -1,0 +1,19 @@
+{
+	"scripts": {
+		"help": "cat package.json",
+		"logs": "tail -F ~/.forever/rs-prod.log",
+		"r": "npm run k && cd ~/projects/robinstocks/server && tsc && sleep 3 && forever start -c 'node --expose-gc --max_old_space_size=512' forever.prod.json && tail -F ~/.forever/rs-prod.log",
+		"k": "forever stopall && forever cleanlogs",
+		"shared": "sh link.shared.sh",
+		"upd": "npm run repo && npm run client && npm run server && echo UPDATE COMPLETE && npm run r",
+		"repo": "eval `ssh-agent -s` && ssh-add ~/.ssh/git_rsa && cd ~/projects/robinstocks && git pull && git reset --hard && echo REPO UPDATE COMPLETE",
+		"server": "cd ~/projects/robinstocks/server && npm run i && cd ~/projects/robinstocks && echo SERVER UPDATED",
+		"upds": "cd ~/projects/robinstocks/server && sudo rm -rf node_modules && npm run rm && npm run i && cd ~/projects/robinstocks && echo SERVER UPDATED && npm run r",
+		"client": "cd ~/projects/robinstocks/client && npm run i && npm run build && cd ~/projects/robinstocks && npm run cp_assets && npm run cp_dist && npm run cp_index && npm run cp_favicon && echo CLIENT UPDATED",
+		"cp_assets": "cp -r ~/projects/robinstocks/client/assets /var/www/robinstocks",
+		"cp_dist": "cp -r ~/projects/robinstocks/client/dist /var/www/robinstocks",
+		"cp_index": "cp ~/projects/robinstocks/client/index.html /var/www/robinstocks",
+		"cp_favicon": "cp ~/projects/robinstocks/client/favicon.ico /var/www/robinstocks"
+	}
+}
+

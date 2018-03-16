@@ -1,0 +1,41 @@
+/**/
+
+/*.markets-route .markets-chart-wrapper {
+    min-height: 15rem;
+    height: 15rem;
+    max-height: 15rem;
+}*/
+
+/*.markets-route .ct-line {
+    stroke-width: 2px;
+}
+
+.markets-route .ct-point {
+    stroke: rgba(0, 0, 0, 0);
+    stroke-width: 8px;
+}
+
+.markets-route .ct-success .ct-line {
+    stroke: #69F0AE;
+}
+
+.markets-route .ct-error .ct-line {
+    stroke: #FF5252;
+}
+
+.markets-route .ct-eods .ct-line {
+    stroke-width: 1px;
+    stroke: black;
+    stroke-dasharray: 2px 2px;
+}*/
+
+
+/*.markets-route .ct-chart-line {
+    margin-top: 4px;
+    min-width: 200px;
+    max-height: 40px;
+}*/
+
+
+/**/
+

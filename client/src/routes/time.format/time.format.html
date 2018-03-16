@@ -1,0 +1,33 @@
+<!--  -->
+
+<div class="route-wrapper time-format-route">
+
+    <v-toolbar dark class="primary">
+        <v-icon large dark class="route-toolbar-icon">{{ routericon }}</v-icon>
+        <v-toolbar-title>{{ routerdname }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <main>
+        <v-container fluid class="pa-4">
+            <v-layout row align-center class="card py-3 px-4 mb-4">
+                <v-btn fab small color="secondary" dark class="ma-0" style="border-radius: 50%;" v-on:click="reset">
+                    <v-icon class="t-bold">mdi-close</v-icon>
+                </v-btn>
+                <v-text-field ref="stamp_input" class="flex-1 my-0 mx-4 py-0" v-model="input" label="Format timestamp..."
+                    spellcheck="false" autocomplete="off" hide-details single-line />
+                <p class="headline">{{ formatted }}</p>
+            </v-layout>
+
+            <v-layout row child-flex align-center class="card py-3 px-4 mb-4">
+                <div class="mr-3" v-for="item in history">
+                    <p class="body-1">{{ item }}</p>
+                    <p class="body-2">{{ format_stamp(item, true, true) }}</p>
+                    <!-- <p class="body-2">({{ from_now(item) }})</p> -->
+                </div>
+            </v-layout>
+        </v-container>
+    </main>
+
+</div>
+

@@ -1,0 +1,60 @@
+<!--  -->
+
+<v-layout v-show="cquote.symbol" row align-center class="flex-initial t-nowrap animated animated-fast fadeIn">
+    <div class="tbar-item">
+        <p class="body-1">Last Sale</p>
+        <p class="title">
+            <span class="t-bold">{{ format_price(cquote.lastPrice) }}</span>
+            <span class="subheading">x {{ format_volume(v_lastsize) }}</span>
+            <span v-if="lastStamp">{{ from_now(lastStamp) }}</span>
+        </p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Change</p>
+        <p class="title" :class="v_pm_color(cquote.priceChange, 0, true)">
+            {{ plus_minus(cquote.lastPrice - cquote.eodPrice) }}
+            <span class="t-bold">({{ plus_minus(cquote.priceChange) }}%)</span>
+        </p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Count</p>
+        <p class="title">{{ format_number(cquote.count, 0) }}</p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Volume</p>
+        <p class="title">{{ format_volume(cquote.volume) }}</p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Avg Volume</p>
+        <p class="title">{{ format_volume(cquote.avgVolume) }}</p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Volume Osc</p>
+        <p class="title" :class="v_pm_color(cquote.volumeOsc, 0, true)">{{ plus_minus(cquote.volumeOsc) }}</p>
+    </div>
+    <div class="tbar-item">
+        <p class="body-1">Volume Flow</p>
+        <p class="title" :class="v_pm_color(cquote.tradeFlowVolume, 0, true)">{{ plus_minus(cquote.tradeFlowVolume) }}</p>
+    </div>
+    <div v-if="cquote.marketCap" class="tbar-item">
+        <p class="body-1">Market Cap</p>
+        <p class="title">{{ format_volume(cquote.marketCap) }}</p>
+    </div>
+    <div v-if="cquote.sharesOutstanding" class="tbar-item">
+        <p class="body-1">Shares Out</p>
+        <p class="title">{{ format_volume(cquote.sharesOutstanding) }}</p>
+    </div>
+    <div v-if="cquote.sharesFloat" class="tbar-item">
+        <p class="body-1">Shares Float</p>
+        <p class="title">{{ format_volume(cquote.sharesFloat) }}</p>
+    </div>
+    <div v-if="cquote.stamp" class="tbar-item">
+        <p class="body-1">Updated</p>
+        <p class="title">{{ from_now(cquote.stamp) }}</p>
+    </div>
+    <!-- <div class="tbar-item">
+        <p class="body-1">____</p>
+        <p class="title">{{ ____ }}</p>
+    </div> -->
+</v-layout>
+
